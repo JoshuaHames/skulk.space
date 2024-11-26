@@ -1,0 +1,98 @@
+<style>
+
+    .First{
+        background-color: #A10C5B;
+        align-self: center;
+        animation: shiftFirst 15s infinite;
+        animation-delay: 0s;
+
+    }
+
+    .Layer0{
+        background-color: #A10C5B;
+        align-self: center;
+        animation: shift1 15s infinite;
+        animation-delay: 0s;
+    }
+
+    .Layer1{
+        background-color: #C127AC;
+        align-self: center;
+        animation: shift2 15s reverse infinite;
+        animation-delay: 0s;
+    }
+
+    .Layer2{
+        background-color: #B81ABD;
+        align-self: center;
+        animation: shift3 15s infinite;
+        animation-delay: 0s;
+    }
+
+    .Layer3{
+        background-color: #E155E2;
+        align-self: center;
+        animation: shift4 15s reverse infinite;
+        animation-delay: 0s;
+    }
+
+    @keyframes shiftFirst{
+        0%{background-color: #A10C5B;}
+        25%{background-color: #C127AC;}
+        50%{background-color: #B81ABD;}
+        75%{background-color: #E155E2;}
+        100%{background-color: #A10C5B;}
+    }
+
+    @keyframes shift1{
+        0%{background-color: #A10C5B; width: 95%; height: 95%;}
+        25%{background-color: #C127AC;}
+        50%{background-color: #B81ABD; width: 70%; height: 70%;}
+        75%{background-color: #E155E2;}
+        100%{background-color: #A10C5B;width: 95%; height: 95%;}
+    }
+
+    @keyframes shift2{
+        0%{background-color: #C127AC; width: 95%; height: 95%;}
+        25%{background-color: #B81ABD;}
+        50%{background-color: #E155E2; width: 70%; height: 70%;}
+        75%{background-color: #A10C5B;}
+        100%{background-color: #C127AC; width: 95%; height: 95%;}
+    }
+
+    @keyframes shift3{
+        0%{background-color: #B81ABD; width: 95%; height: 95%;}
+        25%{background-color: #E155E2;}
+        50%{background-color: #A10C5B; width: 70%; height: 70%;}
+        75%{background-color: #C127AC;}
+        100%{background-color: #B81ABD; width: 95%; height: 95%;}
+    }
+
+    @keyframes shift4{
+        0%{background-color: #E155E2; width: 95%; height: 95%;}
+        25%{background-color: #C127AC;}
+        50%{background-color: #B81ABD;width: 70%; height: 70%;}
+        75%{background-color: #B81ABD;}
+        100%{background-color: #E155E2; width: 95%; height: 95%;}
+    }
+
+
+</style>
+
+<div id="PortalHolder">
+    <% let layers = 30; %>
+    <% let change = 95 %>
+    <% let first = true %>
+    <%for (var i = 0; i < layers; i++) { %>
+        <% let probe = (i % 4) %>
+        <% if (first) { %>
+                <div class="First CenterBody" style="width:100%; height:100%">
+            <%first = false %>
+            <% } else { %>
+                <div class="<%= 'Layer' + probe %> CenterBody" style="width:<%= change + '%' %>; height:<%= change + '%' %>; border-radius: 50%;">
+            <% } %>
+    <% } %>
+    <% for(let i = 0; i < layers; i++) { %>
+        </div>
+    <% } %>
+</div>

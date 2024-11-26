@@ -1,0 +1,123 @@
+
+a {
+    all: unset;
+    box-shadow: #3f3331 10px 10px;
+}
+
+.CenterBody {
+    display: flex;
+    justify-content: center;
+}
+
+.NavHeader {
+    background-color: red;
+}
+
+.HomeWindowLink{
+    display: grid;
+    grid-template-rows: 20% 80%;
+    width: 150px;
+    height: 160px;
+    margin: 40px;
+    border: solid 2px black ;
+}
+
+.HomeWindowLink > div {
+    width: 100%;
+    
+}
+
+.LinkTitle{
+    background-color: #F5785F;
+    margin-top: 0px;
+    margin-bottom: 0px;;
+    text-align: center;
+    font-size: 20px;
+    color: #4D0D3B;
+    padding: 3px;
+    border-bottom: solid 2px black ; 
+}
+
+
+.BGImage {
+    background-image: url('Midground.png');
+    position: absolute;
+    left: 0px;
+    width: 200%;
+    height: 200%;
+    background-repeat: repeat;
+    z-index: -1;
+}
+
+#HomePage {
+    grid-column: 1;
+}
+
+#background {
+    background-color: black;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 200%;;
+    z-index: -1;
+}
+
+#vbackground {
+    background-image: url('assets/vBackground.png');
+    left: -128px;
+    animation: vbPan 30s infinite linear;
+}
+
+#ibackground {
+    background-image: url('assets/Background.png');
+    left: -256px;
+    animation: bPan 25s infinite linear;
+}
+
+#midground {
+    background-image: url('assets/Midground.png');
+    left: -512px;
+    animation: mPan 25s infinite linear;
+}
+
+#foreground {
+    background-image: url('assets/Foreground.png');
+    left: -1024px;
+    animation: fPan 20s infinite linear;
+}
+
+#FooterIcon {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    width: 20%;
+    margin: 10px;
+}
+
+#ReturnLink{
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    margin: 10px;
+}
+
+@keyframes vbPan {
+    0%{top: -128px;}
+    100%{top:0px;}
+}
+
+@keyframes bPan {
+    0%{top: -256px;}
+    100%{top:0px;}
+}
+
+@keyframes mPan {
+    0%{top: -512px;}
+    100%{top:0px;}
+}
+
+@keyframes fPan {
+    0%{top: -1024px; left:-25px}
+    100%{top:0px; left:-25px}
+}

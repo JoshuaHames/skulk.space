@@ -1,0 +1,89 @@
+<%- include('partials/header'); -%>
+
+<style>
+
+    #returnlink{
+        display: none;
+    }
+
+    .HomeContent {
+        margin: 10px;
+        height: 400px;
+        width: 700px;
+    }
+
+    #LogoHolder{
+        margin-top: 0px;
+    }
+
+    #LogoImg{
+        width: 500px;
+
+    }
+
+    #HomeWindowContainer{
+        flex-wrap:wrap;
+    }
+
+    #SplashText{
+        position: absolute;
+        color: white;
+        transform:translate(90%, 180px) rotate(-0.05turn);
+        animation: rotate 0.5s alternate-reverse infinite;
+    }
+
+    @keyframes rotate{
+        0% {transform: translate(90%, 180px) rotate(-0.05turn) scale(1);}
+        100% {transform: translate(90%, 180px) rotate(-0.05turn) scale(1.05);}
+    }
+
+</style>
+
+<div class="CenterBody" id="LogoHolder">
+        <img src="assets/SkulkSpaceTitleSmaller.png" id="LogoImg">
+        <h3 id="SplashText">Try it with Franks!</h3>
+</div>
+
+<div class="CenterBody" id="HomePage">
+
+    <div class="window" style="margin: 10px; width: 550px">
+        <div class="title-bar">
+          <div class="title-bar-text">
+            Choose Your Destination
+          </div>
+  
+          <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+            <div class="CenterBody" id="HomeWindowContainer">
+                    <a href="/vael" class="HomeWindowLink" id="VaelLink">
+                        <h5 class="LinkTitle">Vael The Bat</h5>
+                        <%- include('partials/infinity'); -%>
+                    </a>
+                    <a href="/ergo" class="HomeWindowLink" id="ErgoLink">
+                        <h5 class="LinkTitle">Ergo Bytes</h5>
+                        <%- include('partials/infinity'); -%>
+                    </a>
+                    <a href="/gallery" class="HomeWindowLink" id="GalleryLink">
+                        <h5 class="LinkTitle">The Gallary</h5>
+                        <%- include('partials/infinity'); -%>
+                    </a>
+                    <a href="/about" class="HomeWindowLink" id="AboutLink">
+                        <h5 class="LinkTitle">About</h5>
+                        <%- include('partials/infinity'); -%>
+                    </a>
+            </div>
+
+          <section class="field-row" style="justify-content: flex-end">
+            <button>OK</button>
+            <button>Cancel</button>
+          </section>
+        </div>
+      </div>
+</div>
+
+<%- include('partials/footer'); -%>

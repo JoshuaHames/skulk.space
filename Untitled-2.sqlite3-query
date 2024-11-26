@@ -1,0 +1,3 @@
+-- database: c:\Users\joshua.hames\OneDrive\Documents\Webdev Projects\Skulk Space\images.db
+
+SELECT * FROM ImageTable;

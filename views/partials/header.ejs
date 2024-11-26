@@ -1,0 +1,62 @@
+<html land="en">
+
+<head> 
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/98.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div id="background">
+        <div class="BGImage" id="vbackground"></div> <!-- 128px -->
+        <div class="BGImage" id="ibackground"></div> <!-- 256px -->
+        <div class="BGImage" id="midground"></div>  <!-- 512px -->
+        <div class="BGImage" id="foreground"></div> <!-- 1024px -->
+    </div>
+
+    <script>
+        var cx, cy;
+        var x, y;
+    
+        cx = 5;
+        cy = 5;
+        x = 5;
+        y = 5;
+    
+        let b1 = document.getElementById("vbackground");
+        let b2 = document.getElementById("ibackground");
+        let b3 = document.getElementById("midground");
+        let b4 = document.getElementById("foreground");
+    
+        function check() {
+            let distance = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
+            distance = distance / 5;
+    
+            if((cx < (x + 10)) || (cx < (x - 10)) ){
+                cx = cx + 1 * distance;
+            }
+            if((cx > (x + 10)) || (cx > (x - 10)) ){
+                cx = cx - 1 * distance;
+            }
+            
+            if((cy < (y + 10)) || (cy < (y - 10)) ){
+                cy = cy + 1 * distance;
+            }
+            if((cy > (y + 10)) || (cy > (y - 10)) ){
+                cy = cy - 1 * distance;
+            }
+    
+            b1.style.transform = `translate(${cx/150}px, ${cy/60}px)`;
+            b2.style.transform = `translate(${cx/75}px, ${cy/50}px)`;
+            b3.style.transform = `translate(${cx/40}px, ${cy/40}px)`;
+            b4.style.transform = `translate(${cx/20}px, ${cy/30}px)`;
+        }
+        window.addEventListener("mousemove", function (e) {
+            // Gets the x,y position of the mouse cursor
+            x = e.clientX - (window.innerWidth/2);
+            y = e.clientY - (window.innerHeight/2);
+            // sets the image cursor to new relative position
+        });
+        setInterval(check, 20);
+    </script>
+
