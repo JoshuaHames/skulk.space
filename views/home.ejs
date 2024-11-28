@@ -1,7 +1,13 @@
 <%- include('partials/header'); -%>
 
-<style>
+<script>
+    //Custom Trigger for reloading the splash text
+    function reloadSplash(){
+        htmx.trigger('#LogoHolder', 'reloadSplash');
+    }
+</script>
 
+<style>
     #returnlink{
         display: none;
     }
@@ -12,41 +18,18 @@
         width: 700px;
     }
 
-    #LogoHolder{
-        margin-top: 0px;
-    }
-
-    #LogoImg{
-        width: 500px;
-
-    }
-
     #HomeWindowContainer{
         flex-wrap:wrap;
     }
 
-    #SplashText{
-        position: absolute;
-        color: white;
-        transform:translate(90%, 180px) rotate(-0.05turn);
-        animation: rotate 0.5s alternate-reverse infinite;
-    }
-
-    @keyframes rotate{
-        0% {transform: translate(90%, 180px) rotate(-0.05turn) scale(1);}
-        100% {transform: translate(90%, 180px) rotate(-0.05turn) scale(1.05);}
-    }
-
 </style>
 
-<div class="CenterBody" id="LogoHolder">
-        <img src="assets/SkulkSpaceTitleSmaller.png" id="LogoImg">
-        <h3 id="SplashText">Try it with Franks!</h3>
+<div class="CenterBody" id="LogoHolder" hx-get="/splash" hx-trigger="load, reloadSplash ">
+
 </div>
 
 <div class="CenterBody" id="HomePage">
-
-    <div class="window" style="margin: 10px; width: 550px">
+    <div class="window" id="HomeWindow">
         <div class="title-bar">
           <div class="title-bar-text">
             Choose Your Destination
@@ -69,7 +52,7 @@
                         <%- include('partials/infinity'); -%>
                     </a>
                     <a href="/gallery" class="HomeWindowLink" id="GalleryLink">
-                        <h5 class="LinkTitle">The Gallary</h5>
+                        <h5 class="LinkTitle">The Gallery</h5>
                         <%- include('partials/infinity'); -%>
                     </a>
                     <a href="/about" class="HomeWindowLink" id="AboutLink">
@@ -79,7 +62,7 @@
             </div>
 
           <section class="field-row" style="justify-content: flex-end">
-            <button>OK</button>
+            <button onclick="reloadSplash()">OK</button>
             <button>Cancel</button>
           </section>
         </div>

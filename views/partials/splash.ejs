@@ -1,0 +1,57 @@
+<% let SplashIndex = Math.floor(Math.random() * (items.length - 1)); %>
+
+<style>
+    @media only screen and (max-device-width: 1400px) {
+        /* For Mobile Devices */
+        #SplashText{
+            position: absolute;
+            width: 500px;
+            color: black;
+            font-size: 55px;
+            text-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;
+            text-align: center;
+            transform:translate(45%, 180px) rotate(-0.05turn);
+            animation: pulse-mobile 0.5s alternate-reverse infinite, RGB 6s linear alternate-reverse infinite;
+        }
+    }
+
+    @media only screen and (min-device-width: 1400px) {
+        /* For Desktop Devices */
+        #SplashText{
+        position: absolute;
+        width: 500px;
+        color: black;
+        text-shadow: -1px -1px 0 lime, 1px -1px 0 #lime, -1px 1px 0 lime, 1px 1px 0 lime;
+        text-align: center;
+        transform:translate(45%, 180px) rotate(-0.05turn);
+        animation: pulse 0.5s alternate-reverse infinite, RGB 6s linear alternate-reverse infinite;
+    }
+    }
+
+    @keyframes pulse{
+        0% {transform: translate(45%, 180px) rotate(-0.05turn) scale(1);}
+        100% {transform: translate(45%, 180px) rotate(-0.05turn) scale(1.05);}
+    }
+
+    @keyframes RGB{
+        0%{text-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;}
+        12.5%{text-shadow: -1px -1px 0 turquoise, 1px -1px 0 turquoise, -1px 1px 0 lime, 1px 1px 0 lime;}
+        25%{text-shadow: -1px -1px 0 turquoise, 1px -1px 0 turquoise, -1px 1px 0 turquoise, 1px 1px 0 turquoise}
+        37.5%{text-shadow: -1px -1px 0 turquoise, 1px -1px 0 turquoise, -1px 1px 0 magenta, 1px 1px 0 magenta}
+        50%{text-shadow: -1px -1px 0 magenta, 1px -1px 0 magenta, -1px 1px 0 magenta, 1px 1px 0 magenta;}
+        62.5%{text-shadow: -1px -1px 0 magenta, 1px -1px 0 magenta, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+        75%{text-shadow: -1px -1px 0 yellow, 1px -1px 0 yellow, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+        87.5%{text-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+        100%{text-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;}
+
+    }
+
+    @keyframes pulse-mobile{
+        0% {transform: translate(40%, 350px) rotate(-0.05turn) scale(1);}
+        100% {transform: translate(40%, 350px) rotate(-0.05turn) scale(1.05);}
+    }
+</style>
+
+
+<img src="assets/SkulkSpaceTitleSmaller.png" id="LogoImg">
+<h3 id="SplashText"><%= items[SplashIndex].line %></h3>

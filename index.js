@@ -18,39 +18,42 @@ const io = new Server(server);
 //Server Variables
 const WEB_PORT = 32000;
 
+let SplashText = [];
+
 //SQL
 const sql = require('sqlite3').verbose();
 
-let db = new sql.Database('images.db', sql.OPEN_READWRITE, (err) =>{
+let GallaryDB = new sql.Database('images.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
-	console.log('Connection Successful');
+	console.log('Connection to Gallery Successful');
+})
+
+let SplashDB = new sql.Database('splash.db', sql.OPEN_READ, (err) =>{
+	if(err) return console.error(err.message);
+	console.log('Connection to Splash Successful');
 })
 
 
-db.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight)")
+GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight)")
+SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
 
+//Image Table Quarrys
 const InsertSql = 'INSERT INTO ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight) VALUES(?,?,?,?,?,?)';
 const ExistSql = 'SELECT 1 as e FROM items WHERE id = ?'
 const GetCount = 'SELECT item_count FROM items WHERE id = ?'
-const GetAll = 'SELECT * FROM ImageTable'
 
-function addImage(id, path, title, desc) {
-    db.run(InsertSql, [id, path, title, desc], (err) => {
-        if (err) return console.error(err.message)
-        console.log('New row created for: ' + id)
-    });
-}
+const GetAllGallery = 'SELECT * FROM ImageTable'
+const GetAll = 'SELECT * FROM '
 
-function getItems() {
-    db.all(GetAll, [], (err,rows) =>{
+function getItems(database, table) {
+    database.all(GetAll + table, [], (err,rows) =>{
         if (err) return console.error(err.message)
-        return rows;
+        SplashText = rows;
     })
 }
 
-
 function listDB() {
-    db.all(GetAll, [], (err,rows) =>{
+    GallaryDB.all(GetAllGallery, [], (err,rows) =>{
         if (err) return console.error(err.message)
         rows.forEach(row => {
             console.log(row.id + " " + row.imgPath);
@@ -62,13 +65,38 @@ server.listen(WEB_PORT, () => {
     console.log('listening on %d', WEB_PORT);
 });
 
-listDB();
+
+SplashText.forEach( row =>{
+    console.log(row.id);
+});
+
 
 //Main Homepage
-app.get('/', (req,res) => res.render('home'));
+
+app.get('/splash',(req, res) => {
+    SplashDB.all('SELECT * FROM SplashTable', [], (err,rows) =>{
+        if (err) return console.error(err.message)
+
+        const data = {
+            items: rows,
+        };
+        res.render('partials/splash', data);
+    });
+});
+
+app.get('/',(req, res) => {
+    SplashDB.all('SELECT * FROM SplashTable', [], (err,rows) =>{
+        if (err) return console.error(err.message)
+
+        const data = {
+            items: rows,
+        };
+        res.render('home', data);
+    });
+});
 
 app.get('/gallery',(req, res) => {
-    db.all(GetAll, [], (err,rows) =>{
+    GallaryDB.all(GetAllGallery, [], (err,rows) =>{
         if (err) return console.error(err.message)
 
         const data = {

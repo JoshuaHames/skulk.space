@@ -60,6 +60,82 @@
     #title{
         color: white;
     }
+
+
+
+    @media only screen and (max-device-width: 1400px) {
+    /* Mobile Styles */
+
+    #Gallery-Container{
+        align-self: center;
+        padding: 30px;;
+        width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        justify-content: center;
+    }
+
+    .img-desc{
+        opacity: 0;
+        animation: fadeout 0.15s forwards;
+        font-size: 20px;
+        margin: 5px;
+        padding: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-left: #f9cecbe7 solid 2px;
+        border-top: #f9cecbe7 solid 2px;
+        border-right: #fffdb4de solid 2px;
+        border-bottom: #fffdb4cb solid 2px;
+        border-radius: 5px;
+        background-color: #f1979094;
+    }
+
+    .desc-expanded{
+        animation: fadein 0.6s forwards;
+    }
+
+
+    #page-body{
+        display: grid;
+        grid-column: 1;
+        justify-content: center;
+    }
+
+    #title{
+        align-self: center;
+    }
+
+    #FooterIcon{
+        width: 10%;
+    }
+
+    @keyframes expand {
+        0%{height: 276px; transform: scale(1);}
+        100%{height: 356px; transform: scale(1.6);}
+    }
+    @keyframes collapse {
+        0%{height: 356px; transform: scale(1.6);}
+        100%{height: 276px; transform: scale(1);}
+    }
+    @keyframes fadein {
+        0%{opacity: 0;}
+        100%{opacity: 1;}
+    }
+    @keyframes fadeout {
+        0%{opacity: 1;}
+        100%{opacity: 0;}
+    }
+    @keyframes zoomImg{
+        0%{width: 256px; height:256px;}
+        100%{width: 1000px; height:1000px;}
+    }
+}
+
+@media only screen and (min-device-width: 1400px) {
+    /* Desktop and Tablet Styles */
+
     #Gallery-Container{
         align-self: center;
         padding: 10px;;
@@ -125,13 +201,61 @@
         0%{width: 256px; height:256px;}
         100%{width: 1000px; height:1000px;}
     }
-
+}
     <% let maxScale = 0.2 %>
     <% let minScale = 0.15 %>
     <% items.forEach(item => { %>
+
+    @media only screen and (max-device-width: 1400px) {
+        /* Mobile Styles */
         .<%= 'item'+item.id+'-item'%>{
             width:<%= item.imgWidth * 0.15 %>px;
-            height: <%= (item.imgHeight * 0.15)+20 %>px;
+            height: <%= (item.imgHeight * 0.15)+100 %>px;
+            margin: 5px;
+            animation: <%= 'item'+item.id+'-collapse'%> 0.3s forwards;
+        }
+
+        .<%= 'item'+item.id+'-img'%>{
+            animation: <%= 'item'+item.id+'-imgCollapse'%> 0.3s forwards;
+        }
+
+        .<%= 'item'+item.id+'-imgExpanded'%>{
+            animation: <%= 'item'+item.id+'-imgExpand'%> 0.3s forwards;
+        }
+
+        .<%= 'item'+item.id+'-expanded'%>{
+            animation: <%= 'item'+item.id+'-expand'%> 0.3s forwards;
+            z-index: 10;
+        }
+
+        @keyframes <%= 'item'+item.id+'-expand'%>{
+            0%{width:<%= item.imgWidth * minScale+100 %>px; height: <%= (item.imgHeight * minScale+100)+40 %>px; transform: scale(1);}
+            100%{width:<%= item.imgWidth * maxScale+100 %>px; height: <%= (item.imgHeight * maxScale+100)+155 %>px; transform: scale(1.7);}
+            
+        }
+
+        @keyframes <%= 'item'+item.id+'-collapse'%>{
+            0%{width:<%= item.imgWidth * maxScale+100 %>px; height: <%= (item.imgHeight * maxScale+100)+155 %>px; transform: scale(1.7);}
+            100%{width:<%= item.imgWidth * minScale+100 %>px; height: <%= (item.imgHeight * minScale+100)+40 %>px; transform: scale(1);}
+        }
+
+        @keyframes <%= 'item'+item.id+'-imgCollapse'%>{
+            0%{width:<%= item.imgWidth * maxScale+100 %>px;}
+            100%{width:<%= item.imgWidth * minScale+100 %>px;}
+        }
+
+        @keyframes <%= 'item'+item.id+'-imgExpand'%>{
+            0%{width:<%= item.imgWidth * minScale+100 %>px;}
+            100%{width:<%= item.imgWidth * maxScale+100 %>px;}
+        }
+    }
+
+
+    @media only screen and (min-device-width: 1400px) {
+        /* Desktop Styles */
+        .<%= 'item'+item.id+'-item'%>{
+            width:<%= item.imgWidth * 0.15 %>px;
+            height: <%= (item.imgHeight * 0.15)+100 %>px;
             margin: 5px;
             animation: <%= 'item'+item.id+'-collapse'%> 0.3s forwards;
         }
@@ -169,7 +293,7 @@
             0%{width:<%= item.imgWidth * minScale %>px;}
             100%{width:<%= item.imgWidth * maxScale %>px;}
         }
-
+    }
     <%}); %>
 
 </style>
@@ -180,7 +304,9 @@
 
 <div class="CenterBody">
     <div id="Gallery-Container">
+
         <% items.forEach(item => { %>
+
             <div class="<%= 'item'+item.id+'-item'%> window" id="item<%=item.id%>">
                 <div class="title-bar">
                     <div class="title-bar-text">
@@ -205,8 +331,6 @@
         <%}); %>
     </div>
 </div>
-
-
 
 <%- include('partials/footer'); -%>
 
