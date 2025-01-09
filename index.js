@@ -1,7 +1,7 @@
+
 //Express setup
 const express = require('express');
 const app = express();
-
 //ejs setup
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
@@ -106,6 +106,17 @@ app.get('/gallery',(req, res) => {
     });
 });
 
+
+//Page Renders
+app.get('/WIP',(req, res) => {
+    res.render('WIP');
+});
+
+app.get('/about',(req, res) => {
+    res.render('about');
+});
+
+//Socket IO
 io.on('connection', (socket) => {
     console.log("Client Connected");
 });

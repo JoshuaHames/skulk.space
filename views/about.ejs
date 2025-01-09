@@ -1,0 +1,201 @@
+<%- include('partials/header'); -%>
+
+<style>
+    a{
+        all:unset;
+    }
+    #footericon {
+        display: none;
+    }
+
+    #AboutSection{
+        margin-top: 10%;;
+    }
+
+    .Mini{
+        color: black;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    h4{
+        margin-bottom: 2px;
+    }
+
+    ul{
+        margin-top: 2px;
+    }
+
+    @media only screen and (min-device-width:1400px) {
+        /* For Desktop */
+
+    .item-content{
+        background-color: rgba(126, 95, 126, 0.705);
+        border-style: solid;
+        border-width: 2px;
+        border-color: white;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 25px;
+        color: white;
+        font-size: large;
+    }
+
+    #item1-side{
+        margin-left: 15%;
+    }
+    #VaelImg{
+        width: 200px;
+    }
+
+    #ErgoImg{
+        width: 200px;
+    }
+
+    #VaelLink{
+        margin-left: 10%;
+    }
+
+    #ErgoLink{
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #item3-side{
+        margin-left: 10%;
+    }
+
+    #discordlogo{
+        margin-top: 25px;
+        width: 180px;
+    }
+
+    #AboutContent{
+        display: grid;
+        grid-template-columns: 70% 15%;
+        align-items: center;
+        column-gap: 10px;
+        width: 50%;
+    }
+
+    }
+
+    @media only screen and (max-device-width: 1400px) {
+        /* For Mobile */
+        .item-content{
+            background-color: rgba(126, 95, 126, 0.705);
+            border-style: solid;
+            border-width: 2px;
+            border-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 25px;
+            color: white;
+            font-size: xx-large;
+        }
+
+        #AboutContent{
+            margin-bottom: 15%;
+        }
+
+        #VaelImg{
+            width: 150px;
+            animation:RGBShadow-Large 6s linear alternate-reverse infinite;
+        }
+
+        #ErgoImg{
+            width: 150px;
+            animation:RGBShadow-Large 6s linear alternate-reverse infinite;
+        }
+
+        #VaelLink{
+            margin-left: 10%;
+        }
+
+        #ErgoLink{
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #discordlogo{
+            margin-top: 25px;
+            width: 180px;
+        }
+        
+        #item1-side{
+            margin-left: 5%;
+
+        }
+
+        #item3-side{
+            margin-left: 10%;
+        }
+        #AboutContent{
+            grid-template-columns: 88% 12%;
+            column-gap: 8px;
+            align-items: center;
+            display: grid;
+            width: 85%;
+
+        }
+    }
+
+</style>
+
+
+<div class="CenterBody" id="AboutSection">
+    <div id="AboutContent">
+        <div id=item1>
+            <h3 class="RainbowText GlitchHeader Mini">What is Skulk Space?</h3>
+            <div id="item1-content" class="item-content">
+                <p>Skulk Space is many things. At its heart, it is a shared identity for our community and a label under which we, Ergo and Vael, bring our creative visions to life.</p>
+                <p>This website acts as a central hub, weaving together our diverse projects across multiple platforms, accounts, and community spaces. It's also a home for unique works—ranging from software and electronics to digital art and fiber creations—that don't fit within traditional mediums.</p>
+                <P>Together, we are two multi-disciplinary artists, partners in life and creativity, who have been married since 2016. Skulk Space reflects our passion for storytelling, character design, and the endless pursuit of growth through art and exploration.</p>
+            </div>
+        </div>
+        <div id="item1-side">
+            <a href="https://discord.gg/x2yhUCJZ"><img id="discordlogo" src="assets/discord.png"></img></a>
+        </div>
+        <div id=item2>
+            <h3 class="RainbowText GlitchHeader Mini">About Vael</h3>
+            <div id="item2-content" class="item-content">
+                <p>Vael is a 27-year-old multi-disciplinary Canadian artist specializing in digital and fiber arts. With a background in costume design, 3D modeling, and game design, her skills and interests extend well beyond her formal education.</p>
+                <p>Driven by a passion for creativity and a determination to keep growing, Vael continually pushes the boundaries of her artistry.</p>
+                <p>Explore the Gallery for examples of Vael's character designs, digital artworks, and sewing projects!</p>
+                <h4>Aliases</h4>
+                <ul>
+                    <li>Vael</li>
+                    <li>Kalea</li>
+                    <li>SoapyBits</li>
+                </ul>
+            </div>
+        </div>
+        <div id="item2-side">
+            <a href="https://linktr.ee/SoapyBits?fbclid=PAY2xjawHrqc9leHRuA2FlbQIxMQABpjyTfzD3545xkPyJRmyDipo-i5L0VDmZw_gT1N3QreVwf6D1uPJ9sP_5dw_aem_N9qhED8JDYguOExsOkFjBA" target="_blank" id="VaelLink">
+                <img id="VaelImg" class="RainbowShadow" src="assets/Vael.png"></img>
+            </a>
+
+        </div>
+        <div id=item3>
+            <h3 class="RainbowText GlitchHeader Mini">About Ergo</h3>
+            <div id="item3-content" class="item-content">
+                <p>Ergo is a 28-year-old American-born artist and computer science student. In 2016, they immigrated to Canada to be with Vael and have lived there ever since, continuing their education in computing science.</p>
+                <p>Ergo is passionate about story building and character design, which they bring to life through various mediums, including music, electronics, software, and, more recently, fabric arts.</p>
+                <p>They believe that exploring diverse disciplines offers insights into both ourselves and the nature of art. Constantly driven to learn new skills, Ergo thrives on challenging themselves to uncover different facets of the human experience.</p>
+                <h4>Aliases</h4>
+                <ul>
+                    <li>Ergo</li>
+                    <li>Levy</li>
+                    <li>Leviticus</li>
+                </ul>
+            </div>
+        </div>
+        <div id="item3-side">
+            <a href="/WIP" id="ErgoLink">
+                <img id="ErgoImg" class="RainbowShadow" src="assets/ErgoSit.jpg"></img>
+            </a>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer'); -%>
