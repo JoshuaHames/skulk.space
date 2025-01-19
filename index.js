@@ -16,7 +16,7 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 
 //Server Variables
-const WEB_PORT = 32000;
+const WEB_PORT = 32001;
 
 let SplashText = [];
 
@@ -34,7 +34,7 @@ let SplashDB = new sql.Database('splash.db', sql.OPEN_READ, (err) =>{
 })
 
 
-GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight)")
+GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight, Catagory)")
 SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
 
 //Image Table Quarrys
@@ -42,7 +42,10 @@ const InsertSql = 'INSERT INTO ImageTable(id, imgPath, imgTitle, imgDescription,
 const ExistSql = 'SELECT 1 as e FROM items WHERE id = ?'
 const GetCount = 'SELECT item_count FROM items WHERE id = ?'
 
-const GetAllGallery = 'SELECT * FROM ImageTable'
+const GetAllGallery = 'SELECT * FROM ImageTable';
+const GetAllPaws = 'SELECT * FROM ImageTable WHERE catagory = "paw"';
+const GetAllArt = 'SELECT * FROM ImageTable WHERE catagory = "art"';
+const GetAllPCM = 'SELECT * FROM ImageTable WHERE catagory = "pcm"';
 const GetAll = 'SELECT * FROM '
 
 function getItems(database, table) {
@@ -95,15 +98,50 @@ app.get('/',(req, res) => {
     });
 });
 
-app.get('/gallery',(req, res) => {
-    GallaryDB.all(GetAllGallery, [], (err,rows) =>{
-        if (err) return console.error(err.message)
+app.get('/gallery', async (req, res) => {
+    try {
+        // Run all queries concurrently using Promise.all
+        const [paws, art, pcm, rows] = await Promise.all([
+            new Promise((resolve, reject) => {
+                GallaryDB.all(GetAllPaws, [], (err, rows) => {
+                    if (err) reject(err);
+                    else resolve(rows);
+                });
+            }),
+            new Promise((resolve, reject) => {
+                GallaryDB.all(GetAllArt, [], (err, rows) => {
+                    if (err) reject(err);
+                    else resolve(rows);
+                });
+            }),
+            new Promise((resolve, reject) => {
+                GallaryDB.all(GetAllPCM, [], (err, rows) => {
+                    if (err) reject(err);
+                    else resolve(rows);
+                });
+            }),
+            new Promise((resolve, reject) => {
+                GallaryDB.all(GetAllGallery, [], (err, rows) => {
+                    if (err) reject(err);
+                    else resolve(rows);
+                });
+            })
+        ]);
 
+        // Prepare data object for rendering
         const data = {
             items: rows,
+            pawItems: paws,
+            artItems: art,
+            pcmItems: pcm
         };
+
+        // Render the gallery page with the data
         res.render('gallery', data);
-    });
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 

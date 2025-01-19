@@ -61,10 +61,28 @@
         box-shadow: #3f333198 10px 10px;
     }
 
-
+    .realLink{
+        all: unset;
+        color: lime;
+    }
 
     @media only screen and (max-device-width: 1400px) {
     /* Mobile Styles */
+    .SectionLabel{
+        width: 50%;
+        padding-top: 60px;
+        margin-bottom: 0px;
+    }
+
+    .SectionHeader{
+        text-align: center;
+
+    }
+
+    .SectionDetails{
+        font-size: x-large;
+        color: white
+    }
 
     #Gallery-Container{
         align-self: center;
@@ -163,7 +181,23 @@
 @media only screen and (min-device-width: 1400px) {
     /* Desktop and Tablet Styles */
 
-    #Gallery-Container{
+    .SectionLabel{
+        width: 50%;
+        padding-top: 60px;
+        margin-bottom: 0px;
+    }
+
+    .SectionHeader{
+        text-align: center;
+
+    }
+
+    .SectionDetails{
+        font-size: x-large;
+        color: white
+    }
+
+    .Gallery-Container{
         align-self: center;
         padding: 10px;;
         width: 80%;
@@ -259,151 +293,8 @@
         100%{width: 1000px; height:1000px;}
     }
 }
-    <% let maxScale = 0.2 %>
-    <% let minScale = 0.15 %>
-    <% items.forEach(item => { %>
-    
-    <% let aspectratio = item.imgWidth / item.imgHeight %>
-    <% if(aspectratio != 1){ %>
-    <% aspectratio = 1.1 + aspectratio %>
-    <% } else { %>
-    <% aspectratio = 1; %>
-    <% } %>
 
-    @media only screen and (max-device-width: 1400px) {
-        /* Mobile Styles */
-        .<%= 'item'+item.id+'-item'%>{
-            width:<%= item.imgWidth * 0.15 %>px;
-            height: <%= (item.imgHeight * 0.15)+100 %>px;
-            margin: 5px;
-            animation: <%= 'item'+item.id+'-collapse'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-img'%>{
-            animation: <%= 'item'+item.id+'-imgCollapse'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-imgExpanded'%>{
-            animation: <%= 'item'+item.id+'-imgExpand'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-expanded'%>{
-            animation: <%= 'item'+item.id+'-expand'%> 0.3s forwards;
-            z-index: 10;
-        }
-
-        @keyframes <%= 'item'+item.id+'-expand'%>{
-            0%{width:<%= item.imgWidth * minScale+100 %>px; height: <%= (item.imgHeight * minScale+100)+40 %>px; transform: scale(1);}
-            100%{width:<%= item.imgWidth * maxScale+100 %>px; height: <%= (item.imgHeight * maxScale+100)+155 %>px; transform: scale(1.7);}
-            
-        }
-
-        @keyframes <%= 'item'+item.id+'-collapse'%>{
-            0%{width:<%= item.imgWidth * maxScale+100 %>px; height: <%= (item.imgHeight * maxScale+100)+155 %>px; transform: scale(1.7);}
-            100%{width:<%= item.imgWidth * minScale+100 %>px; height: <%= (item.imgHeight * minScale+100)+40*aspectratio %>px; transform: scale(1);}
-        }
-
-        @keyframes <%= 'item'+item.id+'-imgCollapse'%>{
-            0%{width:<%= item.imgWidth * maxScale+100 %>px;}
-            100%{width:<%= item.imgWidth * minScale+100 %>px;}
-        }
-
-        @keyframes <%= 'item'+item.id+'-imgExpand'%>{
-            0%{width:<%= item.imgWidth * minScale+100 %>px;}
-            100%{width:<%= item.imgWidth * maxScale+100 %>px;}
-        }
-    }
-
-
-    @media only screen and (min-device-width: 1400px) {
-        /* Desktop Styles */
-        .<%= 'item'+item.id+'-item'%>{
-            width:<%= item.imgWidth * 0.15 %>px;
-            height: <%= (item.imgHeight * 0.15)+100 %>px;
-            margin: 5px;
-            animation: <%= 'item'+item.id+'-collapse'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-img'%>{
-            animation: <%= 'item'+item.id+'-imgCollapse'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-imgExpanded'%>{
-            animation: <%= 'item'+item.id+'-imgExpand'%> 0.3s forwards;
-        }
-
-        .<%= 'item'+item.id+'-expanded'%>{
-            animation: <%= 'item'+item.id+'-expand'%> 0.3s forwards;
-            z-index: 10;
-        }
-
-        @keyframes <%= 'item'+item.id+'-expand'%>{
-            0%{width:<%= item.imgWidth * minScale %>px; height: <%= (item.imgHeight * minScale)+20 %>px; transform: scale(1);}
-            100%{width:<%= item.imgWidth * maxScale %>px; height: <%= (item.imgHeight * maxScale)+120 %>px; transform: scale(1.2);}
-            
-        }
-
-        @keyframes <%= 'item'+item.id+'-collapse'%>{
-            0%{width:<%= item.imgWidth * maxScale %>px; height: <%= (item.imgHeight * maxScale)+120 %>px; transform: scale(1.2);}
-            100%{width:<%= item.imgWidth * minScale %>px; height: <%= (item.imgHeight * minScale)+20 %>px; transform: scale(1);}
-        }
-
-        @keyframes <%= 'item'+item.id+'-imgCollapse'%>{
-            0%{width:<%= item.imgWidth * maxScale %>px;}
-            100%{width:<%= item.imgWidth * minScale %>px;}
-        }
-
-        @keyframes <%= 'item'+item.id+'-imgExpand'%>{
-            0%{width:<%= item.imgWidth * minScale %>px;}
-            100%{width:<%= item.imgWidth * maxScale %>px;}
-        }
-    }
-    <%}); %>
-
-</style>
-
-<div class="CenterBody">
-    <h1 id="title" class="RainbowText GlitchHeader"> The Gallery </h1>
-</div>
-
-<div class="CenterBody">
-    <div id="Galleryintro">
-        <h4>Important Information About the Gallery</h4>
-        <div id="GalIntroContent">
-            <p>Right now, the gallery is curated for our application to vend at FurEh this year. Below are some of the products and items we'd like to bring. Click on each item to see a description along with a higher-resolution image.</p>
-            <p>There are more things we'd like to make and bring, but unfortunately, I won't have time to create samples of them before this page is reviewed. So, if you're interested, keep checking back!</p>
-            <p>Additionally, this gallery application is somewhat experimental, as I made it myself. It should work on mobile and desktop, but I haven't had the chance to test it extensively.</p>
-        </div>
-    </div>
-</div>
-
-<div class="CenterBody">
-    <div id="Gallery-Container">
-        <% items.forEach(item => { %>
-            <div class="<%= 'item'+item.id+'-item'%> window" id="item<%=item.id%>">
-                <div class="title-bar">
-                    <div class="title-bar-text">
-                        <%= item.imgTitle %>
-                    </div>
-            
-                    <div class="title-bar-controls">
-                        <button aria-label="Minimize" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                        <button aria-label="Maximize" onclick="ExpandItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                        <button aria-label="Close" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                    </div>
-                    
-                </div>
-                <div class="gallery-window-body">
-                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath + '_S.png'%>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
-                    <div>
-                        <div class="img-desc window-body" id="item<%=item.id%>-desc"><%= item.imgDescription %></div>
-                    </div>
-                </div>
-
-            </div>
-        <%}); %>
-    </div>
-</div>
+<%- include('partials/galsection'); -%>
 
 <%- include('partials/footer'); -%>
 

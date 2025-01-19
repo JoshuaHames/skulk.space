@@ -5,9 +5,10 @@
     color:#F5785F
 }
 
+/* Global Link Styles */
+/* a tags are used in some stylistic elements so most styles are removed globally */
 a {
     all: unset;
-    box-shadow: #3f3331 10px 10px;
 }
 
 a:hover{
@@ -43,6 +44,8 @@ a:hover{
     z-index: -1;
 }
 
+
+/* Paralax Background styles */
 #vbackground {
     background-image: url('assets/vBackground.png');
     left: -128px;
@@ -67,6 +70,29 @@ a:hover{
     animation: fPan 20s infinite linear;
 }
 
+/* Paralax Background Animations */
+
+@keyframes vbPan {
+    0%{top: -128px;}
+    100%{top:0px;}
+}
+
+@keyframes bPan {
+    0%{top: -256px;}
+    100%{top:0px;}
+}
+
+@keyframes mPan {
+    0%{top: -512px;}
+    100%{top:0px;}
+}
+
+@keyframes fPan {
+    0%{top: -1024px; left:-25px}
+    100%{top:0px; left:-25px}
+}
+
+/* Footer Fox Icon, create local style with display:none on any page where it shouldn't be displayed */
 #FooterIcon {
     position: fixed;
     right: 0px;
@@ -75,19 +101,20 @@ a:hover{
     margin: 10px;
 }
 
-/* Rainbow Text */
-
+/* Rainbow Text Animation*/
 .RainbowText{
     color: black;
     text-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;
     animation:RGB 6s linear alternate-reverse infinite;
 }
 
+/* Rainbow Outline */
 .RainbowShadow{
     box-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;
     animation:RGBShadow 6s linear alternate-reverse infinite;
 }
 
+/* Thicker Rainbow Outline for mobile styles*/
 .RainbowShadow-Large{
     box-shadow: -3px -3px 0 lime, 3px -3px 0 lime, -3px 3px 0 lime, 3px 3px 0 lime;;
     animation:RGBShadow-Large 6s linear alternate-reverse infinite;
@@ -266,22 +293,3 @@ a:hover{
     }
 }
 
-@keyframes vbPan {
-    0%{top: -128px;}
-    100%{top:0px;}
-}
-
-@keyframes bPan {
-    0%{top: -256px;}
-    100%{top:0px;}
-}
-
-@keyframes mPan {
-    0%{top: -512px;}
-    100%{top:0px;}
-}
-
-@keyframes fPan {
-    0%{top: -1024px; left:-25px}
-    100%{top:0px; left:-25px}
-}
