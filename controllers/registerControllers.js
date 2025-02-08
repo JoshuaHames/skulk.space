@@ -28,6 +28,7 @@ const handleNewUser = async (req, res) => {
         console.log(usersDB.users)
         res.status(201).json({'Success': 'New User ${user} Created'});
     } catch(err) {
+        console.log("WRONG PASSWORD")
         res.status(500).json({'message': err.message});
     }
 }

@@ -6,17 +6,20 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(express.json());
-
 //Create http server
 const http = require('http');
 const server = http.createServer(app);
- 
 //Socket IO
 const { Server } = require('socket.io');
 const io = new Server(server);
-
 //Server Variables
-const WEB_PORT = 32000;
+const WEB_PORT = 32001;
+
+const verifyJWT = require('./middleware/verifyJWT')
+const cookieParser = require('cookie-parser')
+
+//middleware for cookies
+app.use(cookieParser());
 
 let SplashText = [];
 
@@ -32,7 +35,6 @@ let SplashDB = new sql.Database('splash.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
 	console.log('Connection to Splash Successful');
 })
-
 
 GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight, Catagory)")
 SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
@@ -146,15 +148,28 @@ app.get('/gallery', async (req, res) => {
 
 
 //Page Renders
-app.get('/WIP',(req, res) => {
-    res.render('WIP');
-});
 
 app.get('/about',(req, res) => {
     res.render('about');
 });
 
+//Account Routes
+app.use('/reg', require('./routes/register'))
+app.use('/auth', require('./routes/auth'))
+app.use('/refresh', require('./routes/refresh'))
+app.use('/logout', require('./routes/logout'))
+
 //Socket IO
 io.on('connection', (socket) => {
     console.log("Client Connected");
 });
+
+//Routes Requitring Login
+app.use(verifyJWT);
+app.get('/WIP',(req, res) => {
+    res.render('WIP');
+});
+
+// app.get('*', function(req, res){
+//     res.render('WIP')
+//   });
