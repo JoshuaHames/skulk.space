@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 //Server Variables
-const WEB_PORT = 32001;
+const WEB_PORT = 32000;
 
 const verifyJWT = require('./middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
@@ -153,6 +153,10 @@ app.get('/about',(req, res) => {
     res.render('about');
 });
 
+app.get('/WIP',(req, res) => {
+    res.render('WIP');
+});
+
 //Account Routes
 app.use('/reg', require('./routes/register'))
 app.use('/auth', require('./routes/auth'))
@@ -166,9 +170,7 @@ io.on('connection', (socket) => {
 
 //Routes Requitring Login
 app.use(verifyJWT);
-app.get('/WIP',(req, res) => {
-    res.render('WIP');
-});
+
 
 // app.get('*', function(req, res){
 //     res.render('WIP')

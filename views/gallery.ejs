@@ -24,7 +24,7 @@
         elementDesc = document.getElementById(element.id + "-desc")
         elementImg = document.getElementById(element.id + "-img")
 
-        elementImg.src = '/gallery/' + imgName + '.png'
+        elementImg.src = '/gallery/' + imgName
 
         elementDesc.classList.remove("desc-expanded")
 
@@ -38,7 +38,7 @@
     function CollapseItem(element, imgName){
         elementDesc = document.getElementById(element.id + "-desc")
         elementImg = document.getElementById(element.id + "-img")
-        elementImg.src = '/gallery/thumb/' + imgName + '_S.png'
+        elementImg.src = '/gallery/thumb/' + imgName
         element.classList.remove(element.id +'-expanded')
         elementImg.classList.remove(element.id + '-imgExpanded')
         elementDesc.classList.remove("desc-expanded")

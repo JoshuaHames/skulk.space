@@ -141,7 +141,7 @@
                     
                 </div>
                 <div class="gallery-window-body">
-                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath + '_S.png'%>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
+                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath %>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
                     <div>
                         <div class="img-desc window-body" id="item<%=item.id%>-desc"><%= item.imgDescription %></div>
                     </div>
@@ -151,6 +151,46 @@
         <%}); %>
     </div>
 </div>
+
+<div class="CenterBody">
+    <div class="SectionLabel">
+        <h3 class ="SectionHeader RainbowText GlitchHeader">Chilly Beans!</h3>
+        <div>
+            <p class="SectionDetails">Chilly beans are UV reactive hand-made sensory toys/ice Packs filled with a special <a target="_blank" class="realLink" href="https://en.wikipedia.org/wiki/Phase-change_material">Phase Changing Material (PCM)</a>.
+                They 'freeze' at ~17°C, and as they melt, they maintain this ideal temperature throughout, ensuring consistent cooling while changing texture.</p>
+            <p class="SectionDetails">They stay cool to the touch for hours and have a very satisfying squish and stretch factor.</p> 
+            <p class="SectionDetails">Each Chilly Bean is unique, however we have 'Basic' beans which only contain PCM and glitter, and 'Bespoke' beans which may contain objects and other additives, there will only be one or two of each Bespoke Bean!</p>
+            <p class ="SectionDetails">We are also experimenting with other fillings to find even more unique sensory experinces, additionally, the PCM material will be available in form factors suitable for fursuit cooling and personal comfort!</p>
+        </div>
+    </div>
+</div>
+<div class="CenterBody">
+    <div class="Gallery-Container">
+        <% pcmItems.forEach(item => { %>
+            <div class="<%= 'item'+item.id+'-item'%> window" id="item<%=item.id%>">
+                <div class="title-bar">
+                    <div class="title-bar-text">
+                        <%= item.imgTitle %>
+                    </div>
+            
+                    <div class="title-bar-controls">
+                        <button aria-label="Minimize" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
+                        <button aria-label="Maximize" onclick="ExpandItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
+                        <button aria-label="Close" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
+                    </div>
+                    
+                </div>
+                <div class="gallery-window-body">
+                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath %>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
+                    <div>
+                        <div class="img-desc window-body" id="item<%=item.id%>-desc"><%= item.imgDescription %></div>
+                    </div>
+                </div>
+    
+            </div>
+        <%}); %>
+    </div>
+ </div>
 
 <div class="CenterBody">
     <div class="SectionLabel">
@@ -177,46 +217,7 @@
                     
                 </div>
                 <div class="gallery-window-body">
-                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath + '_S.png'%>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
-                    <div>
-                        <div class="img-desc window-body" id="item<%=item.id%>-desc"><%= item.imgDescription %></div>
-                    </div>
-                </div>
-    
-            </div>
-        <%}); %>
-    </div>
- </div>
-
- <div class="CenterBody">
-    <div class="SectionLabel">
-        <h3 class ="SectionHeader RainbowText GlitchHeader">PCM Cooling Packs</h3>
-        <div>
-            <p class="SectionDetails">These cooling packs are made with a <a target="_blank" class="realLink" href="https://en.wikipedia.org/wiki/Phase-change_material">Phase Changing Material (PCM)</a>, which freezes at higher temperatures for more efficient and longer-lasting cooling.</p> 
-            <p class="SectionDetails">These ice packs are designed specifically for body temperature regulation and comfort. They freeze at ~17°C, and as they melt, they maintain this ideal temperature throughout, ensuring consistent cooling.</p>
-            <p class="SectionDetails">Thanks to this design, they stay cool to the touch for hours and while we recommend using a refrigerator for best performance, they can be charged in any shady spot below 17°C</p> 
-            <p class="SectionDetails">When cooled below their freezing point, the PCM packs provide extended use over traditional ice pack. The concentration of salts within the material shifts giving the PCM multiple freezing points and it maintains a cooler temperature for longer.</p>
-        </div>
-    </div>
-</div>
-<div class="CenterBody">
-    <div class="Gallery-Container">
-        <% pcmItems.forEach(item => { %>
-            <div class="<%= 'item'+item.id+'-item'%> window" id="item<%=item.id%>">
-                <div class="title-bar">
-                    <div class="title-bar-text">
-                        <%= item.imgTitle %>
-                    </div>
-            
-                    <div class="title-bar-controls">
-                        <button aria-label="Minimize" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                        <button aria-label="Maximize" onclick="ExpandItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                        <button aria-label="Close" onclick="CollapseItem(<%='item' + item.id%>,'<%=item.imgPath%>')"></button>
-                    </div>
-                    
-                </div>
-                <div class="gallery-window-body">
-                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath + '_S.png'%>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
+                    <img class="<%= 'item'+item.id+'-img'%>" src="<%= '/gallery/thumb/' + item.imgPath %>" id="item<%=item.id%>-img" onclick="ToggleExpand(<%='item' + item.id%>, '<%=item.imgPath%>')"/>
                     <div>
                         <div class="img-desc window-body" id="item<%=item.id%>-desc"><%= item.imgDescription %></div>
                     </div>
@@ -235,10 +236,10 @@
                 <li>Stickers</li>
                 <li>Pins</li>
                 <li>Pin Lockers</li>
-                <li>3D printed fursuit head base(s)</li>
+                <li>Lightweight 3D printed head base(s)</li>
                 <li>"Achievement" plaques(humorous)</li>
             </ul>
-            <p class="SectionDetails">The Gallery will be popualted in the near future with images these items</p>
+            <p class="SectionDetails">The Gallery will continue to be popualted with images of these items, so check back!</p>
         </div>
     </div>
 </div>
