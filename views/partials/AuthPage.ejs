@@ -1,0 +1,22 @@
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            window.location.href = "/login"; // Redirect to login if no token
+            return;
+        }
+        console.log("This is strange")
+        fetch("/WIP", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = "/login"; // Redirect to login if unauthorized
+            }
+        })
+        .catch(err => console.error("Error:", err));
+});
+</script>

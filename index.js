@@ -2,10 +2,6 @@
 //Express setup
 const express = require('express');
 const app = express();
-//ejs setup
-app.set('view engine', 'ejs');
-app.use(express.static('public'))
-app.use(express.json());
 //Create http server
 const http = require('http');
 const server = http.createServer(app);
@@ -13,10 +9,26 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 //Server Variables
-const WEB_PORT = 32000;
-
+const WEB_PORT = 32001;
+const cors = require('cors');
 const verifyJWT = require('./middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
+const router = express.Router();
+const credentials = require('./middleware/credentials');
+const corsOptions = require('./config/corsOptions');
+
+
+
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+//ejs setup
+app.set('view engine', 'ejs');
+app.use(express.static('public'))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //middleware for cookies
 app.use(cookieParser());
@@ -26,18 +38,34 @@ let SplashText = [];
 //SQL
 const sql = require('sqlite3').verbose();
 
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1]; // Extract token
+
+    if (!token) return res.sendStatus(401); // Unauthorized
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403); // Forbidden if token is invalid
+        req.user = user;
+        next();
+    });
+};
+
 let GallaryDB = new sql.Database('images.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
-	console.log('Connection to Gallery Successful');
 })
 
 let SplashDB = new sql.Database('splash.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
-	console.log('Connection to Splash Successful');
+})
+
+let UserDB = new sql.Database('user.db', sql.OPEN_READ, (err) =>{
+	if(err) return console.error(err.message);
 })
 
 GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight, Catagory)")
 SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
+UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT)");
 
 //Image Table Quarrys
 const InsertSql = 'INSERT INTO ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight) VALUES(?,?,?,?,?,?)';
@@ -147,31 +175,31 @@ app.get('/gallery', async (req, res) => {
 });
 
 
-//Page Renders
+
+
+//Account Routes
+app.use('/', require('./routes/root'));
+app.use('/reg', require('./routes/register'))
+app.use('/auth', require('./routes/auth'))
+app.use('/refresh', require('./routes/refresh'))
+app.use('/logout', require('./routes/logout'))
+app.use('/verify', require('./routes/protectedRoute'))
 
 app.get('/about',(req, res) => {
     res.render('about');
 });
 
-app.get('/WIP',(req, res) => {
-    res.render('WIP');
+app.get('/login',(req, res) => {
+    res.render('login');
+});
+app.get('/WIP', (req, res) => {
+    res.render('WIP'); // Protected content
 });
 
-//Account Routes
-app.use('/reg', require('./routes/register'))
-app.use('/auth', require('./routes/auth'))
-app.use('/refresh', require('./routes/refresh'))
-app.use('/logout', require('./routes/logout'))
+app.use(verifyJWT);
+app.use('/test', require('./routes/protected/test'));
 
 //Socket IO
 io.on('connection', (socket) => {
     console.log("Client Connected");
 });
-
-//Routes Requitring Login
-app.use(verifyJWT);
-
-
-// app.get('*', function(req, res){
-//     res.render('WIP')
-//   });

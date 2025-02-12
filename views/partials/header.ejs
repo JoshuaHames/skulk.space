@@ -1,11 +1,13 @@
 <html land="en">
 <script src="https://unpkg.com/htmx.org@2.0.0"></script>
-
+<script src="scripts/fetchUserInfo.js"></script>
 <head> 
     <title>Document</title>
     <link rel="stylesheet" href="/assets/98.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/fonts/rubik-glitch/index.css">
+
+    <%- include('AccountNav'); -%>
 </head>
 
 <body>
@@ -59,6 +61,19 @@
             y = e.clientY - (window.innerHeight/2);
             // sets the image cursor to new relative position
         });
-        setInterval(check, 20);
+        setInterval(check, 20); //Toggle this to turn off animations
+
+        const userInfo = FetchUserInfo()
+        document.addEventListener('DOMContentLoaded', function() {
+            if(userInfo){
+                const USERNAME = userInfo.username
+                const ROLES = userInfo.roles
+                nameElements = document.getElementsByClassName('NAME_DISPLAY')
+                for(let element of nameElements){
+                    element.innerHTML = USERNAME
+                }
+            }
+        });
+
     </script>
 

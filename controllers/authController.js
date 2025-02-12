@@ -1,53 +1,78 @@
-const usersDB = {
-    users: require('../model/users.json'),
-    setUsers: function(data) {this.users = data}
-}
-
+const sql = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
-
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const fsPromises = require('fs').promises;
-const path = require('path')
 
-const handleLogin = async(req, res) => {
-    const {user, pwd} = req.body;
-    if(!user || !pwd) return res.status(400).json({'message': 'Username and Password are Required.'});
-    
-    const foundUser = usersDB.users.find(person => person.username === user);
-    if(!foundUser){
-        console.log("No Such User")
-        return res.sendStatus(401); //Unauthorized
-    } 
-    //Evaluate password
+let UserDB = new sql.Database('user.db', sql.OPEN_READWRITE, (err) => {
+    if (err) return console.error(err.message);
+});
 
-    const match = await bcrypt.compare(pwd, foundUser.password);
-    if(match){
-        const accessToken = jwt.sign(
-            { "username":foundUser.username},
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn : '30s'} //Make Longer Later, 5 to 15 min
-        );
-        const refreshToken = jwt.sign(
-            { "username":foundUser.username},
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn : '1d'}
-        );
-        // Save the refresh token for current user
-        const otherUsers = usersDB.users.filter(person => person.username !== foundUser.username);
-        const currentUser = {...foundUser, refreshToken};
-        usersDB.setUsers([...otherUsers, currentUser]);
-        await fsPromises.writeFile(
-            path.join(__dirname, '..', 'model', 'users.json'),
-            JSON.stringify(usersDB.users)
-        );
+UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT)");
+const GetUser = 'SELECT * FROM UserTable WHERE username = ?';
+const UpdateToken = 'UPDATE UserTable SET refreshToken = ? WHERE username = ?';
 
-        //Send the JWTs to the client
-        res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000})
-        res.json({ accessToken });
-    } else {
-        res.sendStatus(404); //Unauthorized
-    }
+async function getUsernameInDB(db, username) {
+    return new Promise((resolve, reject) => {
+        db.all(GetUser, [username], (err, rows) => {
+            if (err) return reject(err);
+            if (!rows.length) return resolve(0);
+            if (rows.length > 1) return resolve(2);
+            return resolve(rows[0]);
+        });
+    });
 }
 
-module.exports = {handleLogin};
+function updateRefreshToken(db, username, refreshToken) {
+    return new Promise((resolve, reject) => {
+        db.run(UpdateToken, [refreshToken, username], function (err) {
+            if (err) return reject(err);
+            resolve();
+        });
+    });
+}
+
+const handleLogin = async (req, res) => {
+    const { user, pwd } = req.body;
+    if (!user || !pwd) return res.status(400).json({ message: 'Username and Password are required.' });
+
+    const foundUser = await getUsernameInDB(UserDB, user);
+    if (foundUser == 0) return res.sendStatus(401);
+    if (foundUser == 2) return res.status(409).json({ FatalError: 'Duplicate users in database! Contact a system admin.' });
+
+    const match = await bcrypt.compare(pwd, foundUser.pass);
+    if (!match) return res.sendStatus(404);
+
+    const roles = Object.values(JSON.parse(foundUser.roles));
+    console.log(roles)
+    const accessToken = jwt.sign(
+        { 
+            "UserInfo": {
+                "username": foundUser.username,
+                "roles": roles
+            }
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '30s' }
+    );
+    const refreshToken = jwt.sign(
+        { "username": foundUser.username },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: '1d' }
+    );
+
+    try {
+        await updateRefreshToken(UserDB, user, refreshToken);
+    } catch (err) {
+        console.error("Error updating refresh token:", err.message);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    res.cookie('jwt', refreshToken, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 10
+    });
+    res.json({ accessToken });
+};
+
+module.exports = { handleLogin };
