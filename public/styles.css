@@ -11,6 +11,14 @@ a {
     all: unset;
 }
 
+p {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+ul {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 a:hover{
     cursor: pointer;
 }
@@ -227,6 +235,7 @@ a:hover{
     }
     
     .LinkTitle{
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         background-color: #F5785F;
         margin-top: 0px;
         margin-bottom: 0px;;
@@ -282,6 +291,7 @@ a:hover{
     }
     
     .LinkTitle{
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         background-color: #F5785F;
         margin-top: 0px;
         margin-bottom: 0px;;

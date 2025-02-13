@@ -31,7 +31,6 @@ function deleteRefreshToken(db, refreshToken) {
 
 
 const handleLogout = async (req, res) => {
-    // On Client, also delete accessToken
 
     const cookies = req.cookies
     if(!cookies?.jwt) return res.sendStatus(204); //No content
@@ -49,6 +48,7 @@ const handleLogout = async (req, res) => {
     deleteRefreshToken(UserDB, refreshToken)
 
     res.clearCookie('jwt', {httpOnly: true}) // add the flag secure: true
+    res.clearCookie('twj', {httpOnly: true}) // add the flag secure: true
     res.sendStatus(204)
 }
 

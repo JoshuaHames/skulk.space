@@ -34,10 +34,8 @@ require('dotenv').config();
 const handleRefreshToken = async (req, res) => {
 
     const cookies = req.cookies
-    console.log("Checking if cookie exists")
     if(!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
-    console.log("Cookie was found")
     const foundUser = await getUserWithToken(UserDB, refreshToken);
     if(!foundUser){
         return res.sendStatus(403); //Forbidden
@@ -61,6 +59,14 @@ const handleRefreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '30s' }
             );
+
+            
+            res.cookie('twj', accessToken, {
+                httpOnly: true,
+                secure: false,
+                maxAge: 30000
+            });
+
             res.json({accessToken})
         }
     )

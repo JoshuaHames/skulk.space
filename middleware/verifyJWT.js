@@ -2,10 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const verifyJWT = (req, res, next) => {
-    console.log("Attempting to verify!")
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-    if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
-    const token = authHeader.split(' ')[1];
+    const token = req.cookies.twj
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,

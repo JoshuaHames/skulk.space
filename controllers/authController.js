@@ -36,7 +36,7 @@ const handleLogin = async (req, res) => {
     if (!user || !pwd) return res.status(400).json({ message: 'Username and Password are required.' });
 
     const foundUser = await getUsernameInDB(UserDB, user);
-    if (foundUser == 0) return res.sendStatus(401);
+    if (foundUser == 0) return res.render(unauthorized);
     if (foundUser == 2) return res.status(409).json({ FatalError: 'Duplicate users in database! Contact a system admin.' });
 
     const match = await bcrypt.compare(pwd, foundUser.pass);
@@ -71,6 +71,12 @@ const handleLogin = async (req, res) => {
         httpOnly: true,
         secure: false,
         maxAge: 24 * 60 * 60 * 10
+    });
+
+    res.cookie('twj', accessToken, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 30000
     });
     res.json({ accessToken });
 };

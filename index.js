@@ -8,6 +8,7 @@ const server = http.createServer(app);
 //Socket IO
 const { Server } = require('socket.io');
 const io = new Server(server);
+
 //Server Variables
 const WEB_PORT = 32001;
 const cors = require('cors');
@@ -16,6 +17,11 @@ const cookieParser = require('cookie-parser')
 const router = express.Router();
 const credentials = require('./middleware/credentials');
 const corsOptions = require('./config/corsOptions');
+
+//middleware
+const ROLES_LIST = require('./config/roles_list')
+const verifyRoles = require('./middleware/verifyRoles');
+const verifyToken = require('./middleware/verifyJWT');
 
 
 
@@ -37,19 +43,6 @@ let SplashText = [];
 
 //SQL
 const sql = require('sqlite3').verbose();
-
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1]; // Extract token
-
-    if (!token) return res.sendStatus(401); // Unauthorized
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403); // Forbidden if token is invalid
-        req.user = user;
-        next();
-    });
-};
 
 let GallaryDB = new sql.Database('images.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
@@ -105,7 +98,6 @@ SplashText.forEach( row =>{
 
 
 //Main Homepage
-
 app.get('/splash',(req, res) => {
     SplashDB.all('SELECT * FROM SplashTable', [], (err,rows) =>{
         if (err) return console.error(err.message)
@@ -177,27 +169,37 @@ app.get('/gallery', async (req, res) => {
 
 
 
-//Account Routes
+//API Routes
 app.use('/', require('./routes/root'));
 app.use('/reg', require('./routes/register'))
 app.use('/auth', require('./routes/auth'))
 app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
 app.use('/verify', require('./routes/protectedRoute'))
+app.use('/verifyadmin', require('./routes/adminRoute'))
+
+//Tags all requests with cookies
+app.use(function(req, res, next){
+    //console.log(req.cookies.twj)
+    next();
+});
+
+//Real Admin Routes
+app.use('/WIP', verifyRoles(ROLES_LIST.Admin), (req, res) => {
+    res.render('WIP'); // Protected content
+});
 
 app.get('/about',(req, res) => {
     res.render('about');
 });
 
+app.get('/register',(req, res) => {
+    res.render('register');
+});
+
 app.get('/login',(req, res) => {
     res.render('login');
 });
-app.get('/WIP', (req, res) => {
-    res.render('WIP'); // Protected content
-});
-
-app.use(verifyJWT);
-app.use('/test', require('./routes/protected/test'));
 
 //Socket IO
 io.on('connection', (socket) => {

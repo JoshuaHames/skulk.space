@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <%- include('partials/header'); -%>
 
 <script>
     async function login() {
@@ -20,11 +21,11 @@
             });
 
             if (response.ok) {
+                errorMessage.textContent = "Welcome to Skulk Space";
+
                 const data = await response.json();
                 localStorage.setItem("accessToken", data.accessToken); // Store token in localStorage
-
-                alert("Login successful! Redirecting...");
-                window.location.href = "/wip"; // Redirect to protected page
+                window.location.href = "/"; // Redirect to protected page
             } else {
                 errorMessage.textContent = "Invalid username or password.";
             }
