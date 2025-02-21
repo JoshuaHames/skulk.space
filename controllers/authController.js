@@ -1,15 +1,17 @@
 const sql = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { User } = require('../config/roles_list');
 require('dotenv').config();
 
 let UserDB = new sql.Database('user.db', sql.OPEN_READWRITE, (err) => {
     if (err) return console.error(err.message);
 });
 
-UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT)");
+UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT, lastLogin TEXT)");
 const GetUser = 'SELECT * FROM UserTable WHERE username = ?';
 const UpdateToken = 'UPDATE UserTable SET refreshToken = ? WHERE username = ?';
+const UpdateLast = 'UPDATE UserTable SET lastLogin = ? WHERE username = ?'
 
 async function getUsernameInDB(db, username) {
     return new Promise((resolve, reject) => {
@@ -31,6 +33,17 @@ function updateRefreshToken(db, username, refreshToken) {
     });
 }
 
+function updateLastLogin(db, username){
+    const timeElapsed = Date.now();
+    const now = new Date(timeElapsed);
+    return new Promise((resolve, reject) => {
+        db.run(UpdateLast, [now, username], function (err) {
+            if (err) return reject(err);
+            resolve();
+        });
+    });
+}
+
 const handleLogin = async (req, res) => {
     const { user, pwd } = req.body;
     if (!user || !pwd) return res.status(400).json({ message: 'Username and Password are required.' });
@@ -43,7 +56,6 @@ const handleLogin = async (req, res) => {
     if (!match) return res.sendStatus(404);
 
     const roles = Object.values(JSON.parse(foundUser.roles));
-    console.log(roles)
     const accessToken = jwt.sign(
         { 
             "UserInfo": {
@@ -78,6 +90,9 @@ const handleLogin = async (req, res) => {
         secure: false,
         maxAge: 30000
     });
+
+    updateLastLogin(UserDB, user);
+
     res.json({ accessToken });
 };
 

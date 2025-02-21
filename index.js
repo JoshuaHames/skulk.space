@@ -58,7 +58,8 @@ let UserDB = new sql.Database('user.db', sql.OPEN_READ, (err) =>{
 
 GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight, Catagory)")
 SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
-UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT)");
+UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT, createdDate TEXT, lastLogin TEXT)");
+UserDB.run("CREATE TABLE IF NOT EXISTS IPTable(IP TEXT PRIMARY KEY COLLATE NOCASE, createTime TEXT, lastTime TEXT)");
 
 //Image Table Quarrys
 const InsertSql = 'INSERT INTO ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight) VALUES(?,?,?,?,?,?)';
@@ -89,11 +90,6 @@ function listDB() {
 
 server.listen(WEB_PORT, () => {
     console.log('listening on %d', WEB_PORT);
-});
-
-
-SplashText.forEach( row =>{
-    console.log(row.id);
 });
 
 
@@ -172,6 +168,7 @@ app.get('/gallery', async (req, res) => {
 //API Routes
 app.use('/', require('./routes/root'));
 app.use('/reg', require('./routes/register'))
+app.use('/quarryusr', require('./routes/quarryusr'))
 app.use('/auth', require('./routes/auth'))
 app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
@@ -180,7 +177,6 @@ app.use('/verifyadmin', require('./routes/adminRoute'))
 
 //Tags all requests with cookies
 app.use(function(req, res, next){
-    //console.log(req.cookies.twj)
     next();
 });
 

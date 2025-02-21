@@ -33,7 +33,6 @@ const VerifyRoles = (...allowedRoles) => {
 
         if(!roles) return res.render('./system/ErrorPage', {code:"403 Forbidden", message:"Malformed user profile, you lack any roles! content a system admin."});
         const rolesArray = [...allowedRoles];
-        console.log(rolesArray);
         const result = roles.map(role => rolesArray.includes(role)).find(val => val === true);
 
         if(!result) return res.render('./system/ErrorPage', {code:"401 Unauthorized", message:"You lack permission to view this resource"});

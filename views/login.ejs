@@ -42,61 +42,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+        @media only screen and (min-device-width:1400px) {
+            /*style for desktop and tablet*/
+            #LoginHeader{
+                font-size: 8vh;
+                color: black;
+                padding: 0px;
+                margin-bottom: 32px;
+                margin-top: 0px;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .login-container {
+                background-color: rgba(126, 95, 126, 0.705);
+                padding: 4vh;
+                border-radius: 3vh;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 50vh;
+                height: 40vh;
+                text-align: center;
+            }
+
+            #username {
+                width: 25vw;
+                margin: 1vh;
+                padding: 2vh;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 2vh;
+            }
+
+            #password {
+                width: 25vw;
+                margin: 1vh;
+                padding: 2vh;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 2vh;
+            }
+
+            button {
+                width: 10vw;
+                padding: 2vh;
+                margin-top: 5vh;
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 2vh;
+                cursor: pointer;
+            }
+
+            .error {
+                color: red;
+                margin-top: 10px;
+                font-size: 3vh;
+            }
         }
 
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
+        @media only screen and (max-device-width: 1400px) {
+            /* Mobile Styles */
+            #LoginHeader{
+                font-size: 80px;
+                color: black;
+                padding-bottom: 0px;
+                margin-bottom: 32px;
+            }
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+            .login-container {
+                background-color: rgba(126, 95, 126, 0.705);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 50%;
+                height: 20%;
+                text-align: center;
+            }
 
-        button:hover {
-            background: #0056b3;
-        }
+            #username {
+                width: 65%;
+                margin: 2%;
+                padding: 25px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 26px;
+            }
 
-        .error {
-            color: red;
-            margin-top: 10px;
+            #password {
+                width: 65%;
+                margin: 2%;
+                padding: 25px;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 26px;
+            }
+
+            button {
+                width: 35%;
+                padding: 20px;
+                margin-top: 8%;
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #0056b3;
+            }
+
+            .error {
+                color: red;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
+        <h2 id="LoginHeader" class="GlitchHeader RainbowText">Access</h2>
+        <input type="text" class="input-field" id="username" placeholder="Name">
+        <input type="password" class="input-field" id="password" placeholder="Password">
+        <button class="RainbowShadow-Large" onclick="login()">Connect</button>
         <p class="error" id="errorMessage"></p>
     </div>
 

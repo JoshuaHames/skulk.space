@@ -3,34 +3,111 @@
     <%- include('partials/header'); -%>
 
 <script>
-    async function login() {
+    function validateString(stringA, stringB) {
+        if (stringA.length < 8) {
+            return -1;
+        }
+        if (!/[0-9]/.test(stringA)) {
+            return -2;
+        }
+        if (stringA.includes(stringB)) {
+            return -3;
+        }
+        return 1;
+    }
+
+    async function Register() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const errorMessage = document.getElementById("errorMessage");
+        const IP = await getIP()
+        if(await checkPass() === 1){
+            if (!username || !password) {
+                errorMessage.textContent = "Please fill in both fields.";
+                return;
+            }
 
-        if (!username || !password) {
-            errorMessage.textContent = "Please fill in both fields.";
-            return;
+            try {
+                const response = await fetch("/reg", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ user: username, pwd: password, IP: IP})
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = "/login"; // Redirect to login
+                } else {
+                    errorMessage.textContent = "Rate Limited, Please Wait";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                errorMessage.textContent = "Failed to create new user, try again";
+            }
+        }
+    }
+
+    async function checkPass() {
+        const password = document.getElementById("password").value;
+        const username = document.getElementById("username").value;
+        const passwordConf = document.getElementById("password-conf").value;
+        const errorMessage = document.getElementById("errorMessage");
+
+        if(password == passwordConf){
+            errorMessage.textContent = "";
+        } else {
+            errorMessage.textContent = "Passwords Must Match";
+            return 0
+        }
+        if (password.length < 8) {
+            errorMessage.textContent = "Password Must Be 8+ Charactors.";
+            return -1;
+        }
+        if (!/[0-9]/.test(password)) {
+            errorMessage.textContent = "Password Must Contain a Number.";
+            return -2;
+        }
+        if (password.includes(username)) {
+            errorMessage.textContent = "Password May Not Contain Username.";
+            return -3;
         }
 
+        console.log("ALL GOOD")
+        return 1;
+    }
+
+    async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+            }
+        }
+
+    async function checkUser() {
+
+        const username = document.getElementById("username").value;
+        const errorMessage = document.getElementById("errorMessage");
+
         try {
-            const response = await fetch("/reg", {
+            const response = await fetch("/quarryusr", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user: username, pwd: password })
+                body: JSON.stringify({ user: username})
             });
 
             if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem("accessToken", data.accessToken); // Store token in localStorage
-                window.location.href = "/"; // Redirect to protected page
+                errorMessage.textContent = "";
             } else {
                 errorMessage.textContent = "User Already Exists";
             }
         } catch (error) {
             console.error("Error:", error);
-            errorMessage.textContent = "Failed to create new user, try again";
+            errorMessage.textContent = "User Already Exists";
         }
+
     }
 </script>
 
@@ -40,61 +117,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+        @media only screen and (min-device-width:1400px) {
+            /*style for desktop and tablet*/
+            #RegHeader{
+                font-size: 6vh;
+                color: black;
+                padding: 0px;
+                margin-bottom: 32px;
+                margin-top: 0px;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .register-container {
+                background-color: rgba(126, 95, 126, 0.705);
+                padding: 4vh;
+                border-radius: 3vh;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 50vh;
+                height: 40vh;
+                text-align: center;
+            }
+
+            #username {
+                width: 25vw;
+                margin: 1vh;
+                padding: 2vh;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 2vh;
+            }
+
+            #password {
+                width: 25vw;
+                margin: 1vh;
+                padding: 2vh;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 2vh;
+            }
+
+            #password-conf{
+                width: 25vw;
+                margin: 1vh;
+                padding: 2vh;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 2vh;
+            }
+
+            button {
+                width: 10vw;
+                padding: 2vh;
+                margin-top: 2vh;
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 2vh;
+                cursor: pointer;
+            }
+
+            .error {
+                color: red;
+                margin-top: 10px;
+                font-size: 3vh;
+            }
+
         }
 
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
+        @media only screen and (max-device-width: 1400px) {
+            /* Mobile Styles */
+            #RegHeader{
+                font-size: 70px;
+                color: black;
+                padding-bottom: 0px;
+                margin-bottom: 32px;
+            }
 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+            .register-container {
+                background-color: rgba(126, 95, 126, 0.705);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 50%;
+                height: 20%;
+                text-align: center;
+            }
 
-        button:hover {
-            background: #0056b3;
-        }
+            #username {
+                width: 65%;
+                margin: 2%;
+                padding: 25px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 26px;
+            }
 
-        .error {
-            color: red;
-            margin-top: 10px;
+            #password {
+                width: 65%;
+                margin: 2%;
+                padding: 25px;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 26px;
+            }
+
+            #password-conf{
+                width: 65%;
+                margin: 2%;
+                padding: 25px;
+                border: 1px solid #cccccccb;
+                border-radius: 5px;
+                font-size: 26px;
+            }
+
+            button {
+                width: 35%;
+                padding: 20px;
+                margin-top: 8%;
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #0056b3;
+            }
+
+            .error {
+                color: red;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Create Account</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
+    <div class="register-container">
+        <h2  id="RegHeader" class="GlitchHeader RainbowText">Create Account</h2>
+        <input oninput="checkUser()" type="text" id="username" placeholder="Desired Username">
+        <input oninput="checkPass()" type="password" id="password" placeholder="Password">
+        <input oninput="checkPass()" type="password" id="password-conf" placeholder="Confirm Password">
+        <button onclick="Register()">Register</button>
         <p class="error" id="errorMessage"></p>
     </div>
 

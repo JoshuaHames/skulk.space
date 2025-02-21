@@ -2,7 +2,6 @@
 .GlitchHeader {
     font-family: 'Rubik Glitch', system-ui;
     font-weight: 200;
-    color:#F5785F
 }
 
 /* Global Link Styles */
@@ -16,6 +15,10 @@ p {
 }
 
 ul {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.Site-Font{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
