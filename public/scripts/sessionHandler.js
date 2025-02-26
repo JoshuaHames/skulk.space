@@ -1,3 +1,5 @@
+let userInfo = null
+
 async function ValidateSession() {
     // Retrieve the token from localStorage
     let sessionVerified = false
@@ -115,7 +117,7 @@ function jwtDecode(t) {
     return (token)
     }
 
-function FetchUserInfo() {
+async function FetchUserInfo() {
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
@@ -124,8 +126,21 @@ function FetchUserInfo() {
         return;
     }
     isLoggedIn = true
-    return jwtDecode(token).payload.UserInfo
+
+    let name = jwtDecode(token).payload.UserInfo.username
+    let response = await fetch("/quarryuserdetails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({"username": name})
+    });
+
+    if(response.ok){
+        return response.json().then(data => {
+            userInfo = data
+        })
+    }
 }
+
 
 if(ValidateSession()) {
     refreshSession();

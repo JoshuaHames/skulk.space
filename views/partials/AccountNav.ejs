@@ -1,4 +1,11 @@
 <style>
+
+    .Small-Header{
+        font-size: large;
+        font-weight: 800;
+        padding-bottom: 3px;
+    }
+
     .loggedOut{
         display: none;
     }
@@ -30,6 +37,8 @@
         grid-auto-flow: column;
         grid-template-columns: 180px auto;
         padding-left: 10px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
     }
 
     #WelcomeMessage{
@@ -58,11 +67,53 @@
         border-bottom-left-radius: 20px;
         outline-color: black;
     }
+
+    #AccountOptions{
+        margin-top: 0px;
+        padding-top:0px;
+    }
+
+    #OptionsContent{
+        margin-left: 50px;
+        background-color: black;
+        color: wheat;
+        padding: 10px;
+        border-bottom-left-radius: 10px;
+        border-top-color: black;
+    }
+
+    #AccountCreatedLabel{
+        padding-top: 4px;
+        padding-bottom: 4px;
+        font-size: larger;
+    }
+
+    .options-collapse{
+        transform-origin: center top;
+        transition: transform .05s ease-in;
+        transform: scaleY(0)
+    }
+
+    .options-expand{
+        transform-origin: center top;
+        transition: transform .10s .15s ease-in;
+        transform: scaleY(1.0)
+    }
 </style>
 
 <script>
+    //Helper functions live in header.ejs with the rest of the background scripts
+    function TogglebgAnimate(){
+        let cb_bgAnimate = document.getElementById('CB_bgAnimate')
+        if(cb_bgAnimate.checked){
+            enableBGAnimation()
+            console.log("bf ON", localStorage.getItem('bgAnimate'))
+        } else if (!cb_bgAnimate.checked){
+            disableBGAnimation()
+            console.log("bf OFF", localStorage.getItem('bgAnimate'))
+        }
+    }
     let logout = new Audio('sounds/LoginChimeDownsample.mp3')
-
 
     function sleep(milliseconds) {
     var start = new Date().getTime();
@@ -75,44 +126,72 @@
     var show = new Audio('sounds/open.mp3')
     var hide = new Audio('sounds/close.mp3')
 
-    window.onload = function() {
+    window.addEventListener("load", (event) => {
         let nav = document.getElementById('AccountNav')
         let mesg = document.getElementById('WelcomeMessage')
+        let cb_gbAnimate = document.getElementById('CB_bgAnimate')
+        let options = document.getElementById('AccountOptions')
+        let createdLabel = document.getElementById('AccountCreatedLabel')
+        let joined = new Date(parseFloat(userInfo.createdDate))
         if(isLoggedIn){
             nav.classList.remove('loggedOut')
             mesg.innerHTML = "Connected As " + userInfo.username
+            createdLabel.innerHTML = "Member Since: " + joined.toDateString()
         } else {
             console.log("you are logged out")
         }
-    };
+
+        if(localStorage.getItem("bgAnimate") == 1){
+            enableBGAnimation()
+            cb_gbAnimate.checked = true
+        } else {
+            disableBGAnimation()
+            cb_gbAnimate.checked = false
+        }
+        options.classList.add('options-collapse')
+    });
 
     function onHover(){
+        let options = document.getElementById('AccountOptions')
+        options.classList.remove('options-collapse')
+        options.classList.add('options-expand')
         show.play()
     }
 
     function onExit(){
-            hide.play()
-        }
+        let options = document.getElementById('AccountOptions')
+        options.classList.add('options-collapse')
+        options.classList.remove('options-expand')
+        hide.play()
+    }
 
     function logOut(){
         let mesg = document.getElementById('WelcomeMessage')
         mesg.innerHTML = "Goodbye " + userInfo.username
         logout.play()
         logout.onended = function(){
-            const token = localStorage.getItem("accessToken");
             fetch("/logout", {
                 method: "GET"
             })
-            localStorage.clear()
             window.location.href = "/"
         }
     }
 
 </script>
 
-<div onmouseenter="onHover()" onmouseleave="onExit()" id="AccountNav" class="loggedOut">
+<div onmouseenter="onHover()" onmouseleave="onExit()" onload="getSettings()" id="AccountNav" class="loggedOut">
     <div id="AccountNav-Content">
         <p id="WelcomeMessage">Hello</p>
         <button id="LogoutButton" onclick="logOut()" id="LogoutBtn">Log Out</button>
+    </div>
+
+    <div id="AccountOptions">
+        <div id="OptionsContent" class ="RainbowShadow-Topless">
+            <div id="AccountCreatedLabel">Account Created:</div>
+            <div class="Small-Header">Options</div>
+            
+            <input onClick='TogglebgAnimate()' type="checkbox" id="CB_bgAnimate" name="CB_bgAnimate" value="CB_bgAnimate_val">
+            <label for="CB_bgAnimate">Background Mouse Follow</label><br>
+        </div>
     </div>
 </div>

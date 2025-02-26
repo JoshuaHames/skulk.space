@@ -28,4 +28,23 @@ const quarryUser = async (req, res) => {
     res.status(201).json({'Success': 'Username Avalaible'});
 }
 
-module.exports = {quarryUser};
+const quarryUserDetails = async (req, res) => {
+    const user  = req.body.username;
+    console.log(user)
+    if(!user) return res.status(400).json({'message': 'A Username is Required'});
+    
+    const userCheck = await getUsernameInDB(UserDB, user); //Quary the DB for a username with the same name
+
+    // check for duplicate usernames
+    if(!userCheck) return res.sendStatus(409); //Conflict
+
+    let details = {
+        "username": userCheck.username,
+        "roles":userCheck.roles,
+        "createdDate": userCheck.createdDate,
+        "lastLogin": userCheck.lastLogin
+    }
+    res.json(details);
+}
+
+module.exports = {quarryUser, quarryUserDetails};

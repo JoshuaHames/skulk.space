@@ -163,6 +163,10 @@ app.get('/gallery', async (req, res) => {
 });
 
 
+//Tags all requests with cookies
+app.use(function(req, res, next){
+    next();
+});
 
 
 //API Routes
@@ -175,16 +179,8 @@ app.use('/logout', require('./routes/logout'))
 app.use('/verify', require('./routes/protectedRoute'))
 app.use('/verifyadmin', require('./routes/adminRoute'))
 
-//Tags all requests with cookies
-app.use(function(req, res, next){
-    next();
-});
 
-//Real Admin Routes
-app.use('/WIP', verifyRoles(ROLES_LIST.Admin), (req, res) => {
-    res.render('WIP'); // Protected content
-});
-
+//Regular Routes
 app.get('/about',(req, res) => {
     res.render('about');
 });
@@ -195,6 +191,15 @@ app.get('/register',(req, res) => {
 
 app.get('/login',(req, res) => {
     res.render('login');
+});
+
+
+//Controlled Routes
+app.use('/QuarryUserDetails', verifyRoles(ROLES_LIST.User), require('./routes/quarryuserdetails'));
+
+//Default Route
+app.get('*', (req, res) => {
+    res.render('WIP');
 });
 
 //Socket IO

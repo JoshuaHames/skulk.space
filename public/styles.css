@@ -125,6 +125,11 @@ a:hover{
     animation:RGBShadow 6s linear alternate-reverse infinite;
 }
 
+.RainbowShadow-Topless{
+    box-shadow: -1px 1px 0 lime, 1px 1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;
+    animation:RGBShadow-Topless 6s linear alternate-reverse infinite;
+}
+
 /* Thicker Rainbow Outline for mobile styles*/
 .RainbowShadow-Large{
     box-shadow: -3px -3px 0 lime, 3px -3px 0 lime, -3px 3px 0 lime, 3px 3px 0 lime;;
@@ -154,6 +159,19 @@ a:hover{
     75%{box-shadow: -1px -1px 0 yellow, 1px -1px 0 yellow, -1px 1px 0 yellow, 1px 1px 0 yellow;}
     87.5%{box-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 yellow, 1px 1px 0 yellow;}
     100%{box-shadow: -1px -1px 0 lime, 1px -1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;}
+
+}
+
+@keyframes RGBShadow-Topless{
+    0%{box-shadow: -1px 1px 0 lime, 1px 1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;}
+    12.5%{box-shadow: -1px 1px 0 turquoise, 1px 1px 0 turquoise, -1px 1px 0 lime, 1px 1px 0 lime;}
+    25%{box-shadow: -1px 1px 0 turquoise, 1px 1px 0 turquoise, -1px 1px 0 turquoise, 1px 1px 0 turquoise}
+    37.5%{box-shadow: -1px 1px 0 turquoise, 1px 1px 0 turquoise, -1px 1px 0 magenta, 1px 1px 0 magenta}
+    50%{box-shadow: -1px 1px 0 magenta, 1px 1px 0 magenta, -1px 1px 0 magenta, 1px 1px 0 magenta;}
+    62.5%{box-shadow: -1px 1px 0 magenta, 1px 1px 0 magenta, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+    75%{box-shadow: -1px 1px 0 yellow, 1px 1px 0 yellow, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+    87.5%{box-shadow: -1px 1px 0 lime, 1px 1px 0 lime, -1px 1px 0 yellow, 1px 1px 0 yellow;}
+    100%{box-shadow: -1px 1px 0 lime, 1px 1px 0 lime, -1px 1px 0 lime, 1px 1px 0 lime;}
 
 }
 
