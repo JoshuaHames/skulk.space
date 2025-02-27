@@ -1,6 +1,6 @@
 <style>
-
     @media only screen and (min-device-width:1400px) {
+
         /* Desktop Styles */
         .Small-Header{
             font-size: large;
@@ -262,12 +262,14 @@
 
     window.addEventListener("load", (event) => {
         let nav = document.getElementById('SiteNavContent')
+        let SiteNav = document.getElementById('SiteNav')
         nav.classList.add('options-collapse')
+        SiteNav.classList.remove('hidden')
     });
 
 </script>
 
-<div onmouseenter="onHoverNav()" onmouseleave="onExitNav()"  id="SiteNav">
+<div onmouseenter="onHoverNav()" onmouseleave="onExitNav()" class="hidden" id="SiteNav">
     
     <div id="SiteNav-Content">
         <p id="NavLabel">Navigation</p>

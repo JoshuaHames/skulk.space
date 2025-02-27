@@ -1,3 +1,6 @@
+.hidden{
+    display: none;
+}
 
 .GlitchHeader {
     font-family: 'Rubik Glitch', system-ui;
