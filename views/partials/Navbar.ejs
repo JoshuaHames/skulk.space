@@ -1,0 +1,284 @@
+<style>
+
+    @media only screen and (min-device-width:1400px) {
+        /* Desktop Styles */
+        .Small-Header{
+            font-size: large;
+            font-weight: 800;
+            padding-bottom: 3px;
+        }
+
+        .loggedOut{
+            display: none;
+        }
+        #SiteNav{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 2vh;
+            z-index: 10;
+            top: 30px;
+            left: -4vw;
+            width: 260px;
+            height: 60px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: fixed;
+            background-color: black;
+            transition: transform .15s ease-in;
+            animation: RGBShadow 6s linear alternate-reverse infinite;
+        }
+
+        #SiteNav:hover{
+            transition: transform .15s ease-in;
+            transform: translateX(4vw)
+        }
+
+        #SiteNav-Content{
+            margin-left: 7vw;
+            display: grid;
+            height: 100%;
+            vertical-align: middle;
+            grid-auto-flow: column;
+            grid-template-columns: 100% auto;
+            margin-right: 3vw;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+        }
+
+        .SlideOver{
+            transition: transform .15s ease-in;
+            transform: translateX(-4vw)
+        }
+        #NavLabel{
+            width: auto;
+            align-self: center;
+            color: white;
+            font-size: 2vh;
+            font-weight: 500;
+            margin-left: -.75vw;
+            transition: transform .15s ease-in;
+        }
+
+        #SiteNavContent{
+            margin-top: 0px;
+            padding-top:0px;
+        }
+
+        #NavContent{
+            margin-right: 5vw;
+            background-color: black;
+            color: wheat;
+            padding: 10px;
+            border-bottom-right-radius: 10px;
+            border-top-color: black;
+        }
+
+        #AccountCreatedLabel{
+            padding-top: 4px;
+            padding-bottom: 4px;
+            font-size: larger;
+        }
+
+        .options-collapse{
+            transform-origin: center top;
+            transition: transform .05s ease-in;
+            transform: scaleY(0)
+        }
+
+        .options-expand{
+            transform-origin: center top;
+            transition: transform .10s .15s ease-in;
+            transform: scaleY(1.0)
+        }
+
+        #navlist{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;  
+        }
+
+        .NavItem{
+            text-align: center;
+            font-size: 2vh;
+            width: auto;
+            margin-top: 0.35vh;
+        }
+
+        .NavLink{
+            display: block;
+            width: 90%;
+            padding: 1vh;
+            
+        }
+
+        .NavLink:hover{
+            background-color: aqua;
+        }
+    }
+
+    @media only screen and (max-device-width: 1400px) {
+        /*Mobile styles*/
+        .Small-Header{
+            font-size: large;
+            font-weight: 800;
+            padding-bottom: 3px;
+        }
+
+        .loggedOut{
+            display: none;
+        }
+        #SiteNav{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 1.5vh;
+            z-index: 10;
+            top: 30px;
+            left: -4vw;
+            width: 260px;
+            height: 60px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: fixed;
+            background-color: black;
+            transition: transform .15s ease-in;
+            animation: RGBShadow 6s linear alternate-reverse infinite;
+        }
+
+        #SiteNav:hover{
+            transition: transform .15s ease-in;
+            transform: translateX(4vw)
+        }
+
+        #SiteNav-Content{
+            margin-left: 7vw;
+            display: grid;
+            height: 100%;
+            vertical-align: middle;
+            grid-auto-flow: column;
+            grid-template-columns: 100% auto;
+            margin-right: 3vw;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+        }
+
+        .SlideOver{
+            transition: transform .15s ease-in;
+            transform: translateX(-4vw)
+        }
+        #NavLabel{
+            width: auto;
+            align-self: center;
+            color: white;
+            font-size: 1.5vh;
+            font-weight: 500;
+            transition: transform .15s ease-in;
+        }
+
+        #SiteNavContent{
+            margin-top: 0px;
+            padding-top:0px;
+        }
+
+        #NavContent{
+            margin-right: 5vw;
+            background-color: black;
+            color: wheat;
+            padding: 10px;
+            border-bottom-right-radius: 10px;
+            border-top-color: black;
+        }
+
+        #AccountCreatedLabel{
+            padding-top: 4px;
+            padding-bottom: 4px;
+            font-size: larger;
+        }
+
+        .options-collapse{
+            transform-origin: center top;
+            transition: transform .05s ease-in;
+            transform: scaleY(0)
+        }
+
+        .options-expand{
+            transform-origin: center top;
+            transition: transform .10s .15s ease-in;
+            transform: scaleY(1.0)
+        }
+
+        #navlist{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;  
+        }
+
+        .NavItem{
+            text-align: center;
+            font-size: 2vh;
+            width: auto;
+            margin-top: 0.35vh;
+        }
+
+        .NavLink{
+            display: block;
+            width: 90%;
+            padding: 1vh;
+            
+        }
+
+        .NavLink:hover{
+            background-color: aqua;
+        }
+    }
+</style>
+
+<script>
+    var show = new Audio('sounds/open.mp3')
+    var hide = new Audio('sounds/close.mp3')
+    var start = new Date().getTime();
+
+    function sleep(milliseconds) {
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+        break;
+        }
+    }
+    }
+    function onHoverNav(){
+        let nav = document.getElementById('SiteNavContent')
+        let navLabel = document.getElementById('NavLabel')
+        navLabel.classList.add('SlideOver')
+        nav.classList.remove('options-collapse')
+        nav.classList.add('options-expand')
+        show.play()
+    }
+
+    function onExitNav(){
+        let nav = document.getElementById('SiteNavContent')
+        let navLabel = document.getElementById('NavLabel')
+        navLabel.classList.remove('SlideOver')
+        nav.classList.add('options-collapse')
+        nav.classList.remove('options-expand')
+        hide.play()
+    }
+
+    window.addEventListener("load", (event) => {
+        let nav = document.getElementById('SiteNavContent')
+        nav.classList.add('options-collapse')
+    });
+
+</script>
+
+<div onmouseenter="onHoverNav()" onmouseleave="onExitNav()"  id="SiteNav">
+    
+    <div id="SiteNav-Content">
+        <p id="NavLabel">Navigation</p>
+    </div>
+    <div id="SiteNavContent">
+        <div id="NavContent" class ="RainbowShadow-Topless">
+            <ul id='navlist' class="Site-Font">
+                <li class="NavItem"><a class="NavLink" href="/">Home Page</a></li>
+                <li class="NavItem"><a class="NavLink" href="/Login">Login</a></li>
+                <li class="NavItem"><a class="NavLink" href="/Register">Register</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

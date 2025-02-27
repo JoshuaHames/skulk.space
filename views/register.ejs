@@ -111,164 +111,158 @@
     }
 </script>
 
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
-    <style>
-        @media only screen and (min-device-width:1400px) {
-            /*style for desktop and tablet*/
-            #RegHeader{
-                font-size: 6vh;
-                color: black;
-                padding: 0px;
-                margin-bottom: 32px;
-                margin-top: 0px;
-            }
-
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-            }
-
-            .register-container {
-                background-color: rgba(126, 95, 126, 0.705);
-                padding: 4vh;
-                border-radius: 3vh;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 50vh;
-                height: 40vh;
-                text-align: center;
-            }
-
-            #username {
-                width: 25vw;
-                margin: 1vh;
-                padding: 2vh;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                font-size: 2vh;
-            }
-
-            #password {
-                width: 25vw;
-                margin: 1vh;
-                padding: 2vh;
-                border: 1px solid #cccccccb;
-                border-radius: 5px;
-                font-size: 2vh;
-            }
-
-            #password-conf{
-                width: 25vw;
-                margin: 1vh;
-                padding: 2vh;
-                border: 1px solid #cccccccb;
-                border-radius: 5px;
-                font-size: 2vh;
-            }
-
-            button {
-                width: 10vw;
-                padding: 2vh;
-                margin-top: 2vh;
-                background: black;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 2vh;
-                cursor: pointer;
-            }
-
-            .error {
-                color: red;
-                margin-top: 10px;
-                font-size: 3vh;
-            }
-
+<style>
+    @media only screen and (min-device-width:1400px) {
+        /*style for desktop and tablet*/
+        #RegHeader{
+            font-size: 6vh;
+            color: black;
+            padding: 0px;
+            margin-bottom: 32px;
+            margin-top: 0px;
         }
 
-        @media only screen and (max-device-width: 1400px) {
-            /* Mobile Styles */
-            #RegHeader{
-                font-size: 70px;
-                color: black;
-                padding-bottom: 0px;
-                margin-bottom: 32px;
-            }
-
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-            }
-
-            .register-container {
-                background-color: rgba(126, 95, 126, 0.705);
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 50%;
-                height: 20%;
-                text-align: center;
-            }
-
-            #username {
-                width: 65%;
-                margin: 2%;
-                padding: 25px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                font-size: 26px;
-            }
-
-            #password {
-                width: 65%;
-                margin: 2%;
-                padding: 25px;
-                border: 1px solid #cccccccb;
-                border-radius: 5px;
-                font-size: 26px;
-            }
-
-            #password-conf{
-                width: 65%;
-                margin: 2%;
-                padding: 25px;
-                border: 1px solid #cccccccb;
-                border-radius: 5px;
-                font-size: 26px;
-            }
-
-            button {
-                width: 35%;
-                padding: 20px;
-                margin-top: 8%;
-                background: black;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-            }
-
-            button:hover {
-                background: #0056b3;
-            }
-
-            .error {
-                color: red;
-                margin-top: 10px;
-            }
+        #PageBody {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    </style>
-</head>
-<body>
 
+        .register-container {
+            background-color: rgba(126, 95, 126, 0.705);
+            padding: 4vh;
+            border-radius: 3vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 50vh;
+            height: 40vh;
+            text-align: center;
+        }
+
+        #username {
+            width: 25vw;
+            margin: 1vh;
+            padding: 2vh;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 2vh;
+        }
+
+        #password {
+            width: 25vw;
+            margin: 1vh;
+            padding: 2vh;
+            border: 1px solid #cccccccb;
+            border-radius: 5px;
+            font-size: 2vh;
+        }
+
+        #password-conf{
+            width: 25vw;
+            margin: 1vh;
+            padding: 2vh;
+            border: 1px solid #cccccccb;
+            border-radius: 5px;
+            font-size: 2vh;
+        }
+
+        button {
+            width: 10vw;
+            padding: 2vh;
+            margin-top: 2vh;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 2vh;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 3vh;
+        }
+
+    }
+
+    @media only screen and (max-device-width: 1400px) {
+        /* Mobile Styles */
+        #RegHeader{
+            font-size: 70px;
+            color: black;
+            padding-bottom: 0px;
+            margin-bottom: 32px;
+        }
+
+        #PageBody {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: rgba(126, 95, 126, 0.705);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            height: 20%;
+            text-align: center;
+        }
+
+        #username {
+            width: 65%;
+            margin: 2%;
+            padding: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 26px;
+        }
+
+        #password {
+            width: 65%;
+            margin: 2%;
+            padding: 25px;
+            border: 1px solid #cccccccb;
+            border-radius: 5px;
+            font-size: 26px;
+        }
+
+        #password-conf{
+            width: 65%;
+            margin: 2%;
+            padding: 25px;
+            border: 1px solid #cccccccb;
+            border-radius: 5px;
+            font-size: 26px;
+        }
+
+        button {
+            width: 35%;
+            padding: 20px;
+            margin-top: 8%;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    }
+</style>
+
+<div id="PageBody">
     <div class="register-container">
         <h2  id="RegHeader" class="GlitchHeader RainbowText">Create Account</h2>
         <input oninput="checkUser()" type="text" id="username" placeholder="Desired Username">
@@ -277,6 +271,4 @@
         <button onclick="Register()">Register</button>
         <p class="error" id="errorMessage"></p>
     </div>
-
-</body>
-</html>
+</div>
