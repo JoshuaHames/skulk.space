@@ -1,5 +1,9 @@
 <style>
 
+    #PortalHolder{
+        width: 150px;
+    }
+
     .First{
         background-color: #A10C5B;
         align-self: center;
@@ -80,19 +84,19 @@
 </style>
 
 <div id="PortalHolder">
-    <% let layers = 30; %>
-    <% let change = 95 %>
-    <% let first = true %>
-    <%for (var i = 0; i < layers; i++) { %>
-        <% let probe = (i % 4) %>
-        <% if (first) { %>
-                <div class="First CenterBody" style="width:100%; height:100%">
-            <%first = false %>
-            <% } else { %>
-                <div class="<%= 'Layer' + probe %> CenterBody" style="width:<%= change + '%' %>; height:<%= change + '%' %>; border-radius: 50%;">
-            <% } %>
-    <% } %>
-    <% for(let i = 0; i < layers; i++) { %>
-        </div>
-    <% } %>
+<%let layers = 30;%>
+<%let change = 95%>
+<%let first = true%>
+<%for (var i = 0; i < layers; i++) {%>
+<%let probe = (i % 4)%>
+<%if (first) {%>
+<div class="First CenterBody" style="width:100%; height:100%">
+<%first=false%>
+<%}else{%>
+<div class="<%= 'Layer' + probe %> CenterBody" style="width:<%= change + '%' %>; height:<%= change + '%' %>; border-radius: 50%;">
+<%}%>
+<%}%>
+<% for(let i = 0; i < layers; i++) {%>
+</div>
+<%}%>
 </div>

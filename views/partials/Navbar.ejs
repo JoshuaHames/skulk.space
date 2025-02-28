@@ -111,7 +111,8 @@
         }
 
         .NavLink:hover{
-            background-color: aqua;
+            background-color: rgb(100, 63, 92);
+            color: black;
         }
     }
 
@@ -225,14 +226,13 @@
         }
 
         .NavLink:hover{
-            background-color: aqua;
+            background-color: rgb(255, 0, 200);
+            color: black;
         }
     }
 </style>
 
 <script>
-    var show = new Audio('sounds/open.mp3')
-    var hide = new Audio('sounds/close.mp3')
     var start = new Date().getTime();
 
     function sleep(milliseconds) {
@@ -277,9 +277,9 @@
     <div id="SiteNavContent">
         <div id="NavContent" class ="RainbowShadow-Topless">
             <ul id='navlist' class="Site-Font">
-                <li class="NavItem"><a class="NavLink" href="/">Home Page</a></li>
-                <li class="NavItem"><a class="NavLink" href="/Login">Login</a></li>
-                <li class="NavItem"><a class="NavLink" href="/Register">Register</a></li>
+                <li class="NavItem"><a class="NavLink skulk-link" href="/">Home Page</a></li>
+                <li class="NavItem"><a class="NavLink skulk-link" href="/Login">Login</a></li>
+                <li class="NavItem"><a class="NavLink skulk-link" href="/Register">Register</a></li>
             </ul>
         </div>
     </div>

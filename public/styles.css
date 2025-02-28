@@ -9,8 +9,26 @@
 
 /* Global Link Styles */
 /* a tags are used in some stylistic elements so most styles are removed globally */
-a {
+.skulk-link{
     all: unset;
+    color: lime;
+}
+
+.skulk-link:hover{
+    cursor: pointer;
+    color: turquoise;
+}
+
+.skulk-link-animate{
+    animation: animate-links 1s infinite alternate-reverse;
+    l
+}
+
+@keyframes animate-links{
+    0%{color: lime;}
+    25%{color: turquoise;}
+    50%{color: magenta;}
+    100%{color: yellow;}   
 }
 
 p {
@@ -23,10 +41,6 @@ ul {
 
 .Site-Font{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-a:hover{
-    cursor: pointer;
 }
 
 .CenterBody {

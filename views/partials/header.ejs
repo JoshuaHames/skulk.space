@@ -2,6 +2,7 @@
 <script src="https://unpkg.com/htmx.org@2.0.0"></script>
 <script src="../../../scripts/sessionHandler.js"></script>
 <script src="../../../scripts/userOptions.js"></script>
+<script src="../../../scripts/styleAnimations.js"></script>
 
 <head> 
     <title>Skulk Space</title>
@@ -21,6 +22,11 @@
     </div>
 
     <script>
+        //Sound fx setup
+        var show = new Audio('../sounds/open.mp3')
+        var hide = new Audio('../sounds/close.mp3')
+        var logout = new Audio('../sounds/LoginChimeDownsample.mp3')
+
         let BGAnimationInterval = null
         function enableBGAnimation(){
             set_OP_bgAnimate(1)
@@ -31,6 +37,41 @@
             console.log("Calling from Header")
             set_OP_bgAnimate(0)
             clearInterval(BGAnimationInterval)
+        }
+
+        function enableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=StartAnimateLink
+                    element.onmouseleave=StopAnimateLink
+                    
+                    console.log("Parsed: ", localStorage.getItem('pageParsed'))
+                    if(localStorage.getItem('pageParsed') == 0){
+                        TokenizeLink(element);
+                    }
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(1)
+
+        }
+
+        function disableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=null
+                    element.onmouseleave=null
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(0)
+
         }
         var cx, cy;
         var x, y;
@@ -84,11 +125,28 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             FetchUserInfo()
-            console.log(userInfo)
+            set_OP_pageParsed(0)
+
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    if(localStorage.getItem('linkAnimate') != 0){
+                        element.onmouseenter=StartAnimateLink
+                        element.onmouseleave=StopAnimateLink
+                    }
+                    
+                    console.log("Parsed: ", localStorage.getItem('pageParsed'))
+                    if(localStorage.getItem('pageParsed') == 0){
+                        TokenizeLink(element);
+                    }
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
         });
 
         window.addEventListener("load", function() {
-
             console.log("USER", userInfo)
 
             if(userInfo){
