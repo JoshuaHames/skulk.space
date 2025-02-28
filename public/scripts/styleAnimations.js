@@ -33,7 +33,6 @@ function TokenizeLink(element){
         } else if (letters[i] === '>'){
             tag = tag + letters[i]
             newInner = newInner + tag
-            console.log(tag)
             tag = ""
             inTag = false
         }

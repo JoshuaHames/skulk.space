@@ -150,7 +150,9 @@
             nav.classList.remove('loggedOut')
             mesg.innerHTML = "Connected As " + userInfo.username
             createdLabel.innerHTML = "Member Since: " + joined.toDateString()
-        } else {
+        } 
+        
+        if (!isLoggedIn){
             console.log("you are logged out")
         }
 
