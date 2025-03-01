@@ -103,7 +103,7 @@
             fetch("/logout", {
                 method: "GET"
             })
-            localStorage.clear()
+            localStorage.setItem("accessToken", null)
             window.location.href = "/"
         }
     }

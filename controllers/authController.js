@@ -49,7 +49,7 @@ const handleLogin = async (req, res) => {
     if (!user || !pwd) return res.status(400).json({ message: 'Username and Password are required.' });
 
     const foundUser = await getUsernameInDB(UserDB, user);
-    if (foundUser == 0) return res.render(unauthorized);
+    if (foundUser == 0) return res.status(403).json({ message: 'Incorrect' });
     if (foundUser == 2) return res.status(409).json({ FatalError: 'Duplicate users in database! Contact a system admin.' });
 
     const match = await bcrypt.compare(pwd, foundUser.pass);

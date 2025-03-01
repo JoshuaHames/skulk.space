@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <%- include('partials/header'); -%>
+<%- include('partials/header'); -%>
 
 <script>
     async function login() {
@@ -82,7 +80,7 @@
             font-size: 2vh;
         }
 
-        button {
+       #goBtn {
             width: 10vw;
             padding: 2vh;
             margin-top: 5vh;
@@ -145,7 +143,7 @@
             font-size: 26px;
         }
 
-        button {
+       #goBtn {
             width: 35%;
             padding: 20px;
             margin-top: 8%;
@@ -157,7 +155,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+       #goBtn:hover {
             background: #0056b3;
         }
 
@@ -172,7 +170,7 @@
         <h2 id="LoginHeader" class="GlitchHeader RainbowText">Access</h2>
         <input type="text" class="input-field" id="username" placeholder="Name">
         <input type="password" class="input-field" id="password" placeholder="Password">
-        <button class="RainbowShadow-Large" onclick="login()">Connect</button>
+        <button id="goBtn" class="RainbowShadow-Large" onclick="login()">Connect</button>
         <p class="error" id="errorMessage"></p>
     </div>
 </div>

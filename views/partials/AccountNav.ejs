@@ -10,6 +10,7 @@
         margin: 1vh;
         cursor: pointer;
     }
+
     #AccountNav{
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         z-index: 10;
@@ -141,21 +142,18 @@
         let options = document.getElementById('AccountOptions')
         let createdLabel = document.getElementById('AccountCreatedLabel')
         let joined = new Date(parseFloat(userInfo.createdDate))
+        let logButton = document.getElementById('LogoutButton')
 
         //Option Checkboxes
         let cb_gbAnimate = document.getElementById('CB_bgAnimate')
         let cb_linkAnimate = document.getElementById('CB_linkAnimate')
 
         if(isLoggedIn){
-            nav.classList.remove('loggedOut')
+            options.classList.add('options-collapse')
             mesg.innerHTML = "Connected As " + userInfo.username
             createdLabel.innerHTML = "Member Since: " + joined.toDateString()
+            logButton.innerHTML = "Log Out"
         } 
-        
-        if (!isLoggedIn){
-            console.log("you are logged out")
-        }
-
         //Settings Default Checks
         //Background Animations
         if(localStorage.getItem("bgAnimate") == 1){
@@ -167,17 +165,14 @@
         }
 
         //Link Animations
-        if(localStorage.getItem("linkAnimate") == 1){
+        if(localStorage.getItem("linkAnimate")){
             enableLinkAnimations()
             cb_linkAnimate.checked = true
         } else {
             disableLinkAnimations()
             cb_linkAnimate.checked = false
         }
-
-
-
-        options.classList.add('options-collapse')
+        
     });
 
     function onHover(){
@@ -195,14 +190,18 @@
     }
 
     function logOut(){
-        let mesg = document.getElementById('WelcomeMessage')
-        mesg.innerHTML = "Goodbye " + userInfo.username
-        logout.play()
-        logout.onended = function(){
-            fetch("/logout", {
-                method: "GET"
-            })
-            window.location.href = "/"
+        if(isLoggedIn){
+            let mesg = document.getElementById('WelcomeMessage')
+            mesg.innerHTML = "Goodbye " + userInfo.username
+            logout.play()
+            logout.onended = function(){
+                fetch("/logout", {
+                    method: "GET"
+                })
+                window.location.href = "/"
+            }
+        } else {
+            window.location.href = "/login"
         }
     }
 
@@ -210,13 +209,13 @@
 
 <div onmouseenter="onHover()" onmouseleave="onExit()" onload="getSettings()" id="AccountNav">
     <div id="AccountNav-Content">
-        <p id="WelcomeMessage">Hello</p>
-        <button id="LogoutButton" onclick="logOut()" id="LogoutBtn">Log Out</button>
+        <p id="WelcomeMessage">Site Options</p>
+        <button id="LogoutButton" onclick="logOut()">Log In</button>
     </div>
 
-    <div id="AccountOptions">
+    <div id="AccountOptions" class="options-collapse">
         <div id="OptionsContent" class ="RainbowShadow-Topless">
-            <div id="AccountCreatedLabel">Account Created:</div>
+            <div id="AccountCreatedLabel">Login for Persistant Settings!</div>
             <div class="Small-Header">Options</div>
             
             <input onClick='TogglebgAnimate()' type="checkbox" id="CB_bgAnimate" name="CB_bgAnimate" value="CB_bgAnimate_val">

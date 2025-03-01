@@ -36,11 +36,11 @@ async function ValidateSession() {
                 localStorage.setItem("accessToken", data.accessToken); // Store token in localStorage
                 return true
             } else {
-                localStorage.clear()
+                localStorage.setItem("accessToken", null)
                 return false
             }
         } catch (error) {
-            localStorage.clear()
+            localStorage.setItem("accessToken", null)
             return false
         }
     }
@@ -98,11 +98,11 @@ async function refreshSession(){
             localStorage.setItem("accessToken", data.accessToken);
             return true
         } else {
-            localStorage.clear()
+            localStorage.setItem("accessToken", null)
             return false
         }
     } catch (error) {
-        localStorage.clear()
+        localStorage.setItem("accessToken", null)
         return false
     }
 }
