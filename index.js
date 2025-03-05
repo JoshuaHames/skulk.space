@@ -10,7 +10,7 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 
 //Server Variables
-const WEB_PORT = 32001;
+const WEB_PORT = 32000;
 const cors = require('cors');
 const verifyJWT = require('./middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
