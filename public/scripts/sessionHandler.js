@@ -125,7 +125,6 @@ async function FetchUserInfo() {
         console.log("Not Logged in, no information to grab!")
         return;
     }
-    isLoggedIn = true
 
     let name = jwtDecode(token).payload.UserInfo.username
     let response = await fetch("/quarryuserdetails", {
@@ -137,7 +136,10 @@ async function FetchUserInfo() {
     if(response.ok){
         return response.json().then(data => {
             userInfo = data
+            isLoggedIn = true
         })
+    } else {
+        isLoggedIn = false
     }
 }
 

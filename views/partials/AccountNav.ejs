@@ -137,25 +137,29 @@
     }
 
     window.addEventListener("load", (event) => {
+
+        HeaderSetup()
+
         let nav = document.getElementById('AccountNav')
         let mesg = document.getElementById('WelcomeMessage')
         let options = document.getElementById('AccountOptions')
         let createdLabel = document.getElementById('AccountCreatedLabel')
-        let joined = new Date(parseFloat(userInfo.createdDate))
         let logButton = document.getElementById('LogoutButton')
 
         //Option Checkboxes
         let cb_gbAnimate = document.getElementById('CB_bgAnimate')
         let cb_linkAnimate = document.getElementById('CB_linkAnimate')
 
-        if(isLoggedIn){
+        if(isLoggedIn == true){
             options.classList.add('options-collapse')
             mesg.innerHTML = "Connected As " + userInfo.username
+            let joined = new Date(parseFloat(userInfo.createdDate))
             createdLabel.innerHTML = "Member Since: " + joined.toDateString()
             logButton.innerHTML = "Log Out"
         } 
         //Settings Default Checks
         //Background Animations
+        console.log("TEST", localStorage.getItem("bgAnimate"))
         if(localStorage.getItem("bgAnimate") == 1){
             enableBGAnimation()
             cb_gbAnimate.checked = true
@@ -165,7 +169,7 @@
         }
 
         //Link Animations
-        if(localStorage.getItem("linkAnimate")){
+        if(localStorage.getItem("linkAnimate") == 1){
             enableLinkAnimations()
             cb_linkAnimate.checked = true
         } else {
