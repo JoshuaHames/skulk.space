@@ -169,9 +169,6 @@ app.use(function(req, res, next){
 });
 
 
-//Middleware Routes
-app.use('/three', express.static('node_modules/three'))
-
 //API Routes
 app.use('/', require('./routes/root'));
 app.use('/reg', require('./routes/register'))
@@ -194,10 +191,6 @@ app.get('/register',(req, res) => {
 
 app.get('/login',(req, res) => {
     res.render('login');
-});
-
-app.get('/vael',(req, res) => {
-    res.render('vael');
 });
 
 

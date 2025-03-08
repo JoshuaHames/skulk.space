@@ -1,0 +1,142 @@
+<html land="en">
+<script src="https://unpkg.com/htmx.org@2.0.0"></script>
+<script src="../../../scripts/sessionHandler.js"></script>
+<script src="../../../scripts/userOptions.js"></script>
+<script src="../../../scripts/styleAnimations.js"></script>
+
+<head> 
+    <title>Skulk Space</title>
+    <link rel="stylesheet" href="/assets/98.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/fonts/rubik-glitch/index.css">
+</head>
+
+<%- include('AccountNav'); -%>
+<%- include('Navbar'); -%>
+
+<style>
+    #vael-background{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+    }
+
+    #FooterIcon{
+        display: none;
+    }
+</style>
+
+<body>
+    <canvas id="vael-background">
+
+    </canvas>
+    <script type="module" src="./main.js"></script>
+
+    <script>
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        //Sound fx setup
+        var show = new Audio('../sounds/open.mp3')
+        var hide = new Audio('../sounds/close.mp3')
+        var logout = new Audio('../sounds/LoginChimeDownsample.mp3')
+
+        let BGAnimationInterval = null
+        function enableBGAnimation() {
+            set_OP_bgAnimate(1);
+            if (!isAnimating) {
+                isAnimating = true;
+            }
+        }
+        function disableBGAnimation() {
+            set_OP_bgAnimate(0);
+            isAnimating = false;
+        }
+
+        function enableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=StartAnimateLink
+                    element.onmouseleave=StopAnimateLink
+                    
+                    console.log("Parsed: ", localStorage.getItem('pageParsed'))
+                    if(localStorage.getItem('pageParsed') == 0){
+                        TokenizeLink(element);
+                    }
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(1)
+
+        }
+
+        function disableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=null
+                    element.onmouseleave=null
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(0)
+
+        }
+        var cx, cy;
+        var x, y;
+    
+        cx = 5;
+        cy = 5;
+        x = 5;
+        y = 5;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            FetchUserInfo();
+            set_OP_pageParsed(0);
+
+            let width = window.innerWidth;
+            let height = window.innerHeight;     
+
+            // Setup link animations (unchanged)
+            const links = document.getElementsByClassName('skulk-link');
+            Array.from(links).forEach(function(element) {
+                if (localStorage.getItem('linkAnimate') != 0) {
+                    element.onmouseenter = StartAnimateLink;
+                    element.onmouseleave = StopAnimateLink;
+                }
+                
+                if (localStorage.getItem('pageParsed') == 0) {
+                    TokenizeLink(element);
+                }
+            });
+
+            set_OP_pageParsed(1);
+        });
+
+        function HeaderSetup(){
+            console.log("USER", userInfo)
+
+            if(userInfo){
+                const USERNAME = userInfo.username
+                const ROLES = userInfo.roles
+                nameElements = document.getElementsByClassName('NAME_DISPLAY')
+                for(let element of nameElements){
+                    element.innerHTML = USERNAME
+                }
+            }
+            
+        };
+
+        window.addEventListener("mousemove", function (e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+    </script>
+

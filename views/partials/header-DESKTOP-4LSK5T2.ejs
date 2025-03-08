@@ -1,0 +1,164 @@
+<html land="en">
+<script src="https://unpkg.com/htmx.org@2.0.0"></script>
+<script src="../../../scripts/sessionHandler.js"></script>
+<script src="../../../scripts/userOptions.js"></script>
+<script src="../../../scripts/styleAnimations.js"></script>
+
+<head> 
+    <title>Skulk Space</title>
+    <link rel="stylesheet" href="/assets/98.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/fonts/rubik-glitch/index.css">
+</head>
+
+<%- include('AccountNav'); -%>
+<%- include('Navbar'); -%>
+<body>
+    <div id="background">
+        <div class="BGImage" id="vbackground"></div> <!-- 128px -->
+        <div class="BGImage" id="ibackground"></div> <!-- 256px -->
+        <div class="BGImage" id="midground"></div>  <!-- 512px -->
+        <div class="BGImage" id="foreground"></div> <!-- 1024px -->
+    </div>
+
+    <script>
+        //Sound fx setup
+        var show = new Audio('../sounds/open.mp3')
+        var hide = new Audio('../sounds/close.mp3')
+        var logout = new Audio('../sounds/LoginChimeDownsample.mp3')
+
+        let BGAnimationInterval = null
+        function enableBGAnimation(){
+            set_OP_bgAnimate(1)
+            BGAnimationInterval = setInterval(check, 20);
+        }
+
+        function disableBGAnimation(){
+            console.log("Calling from Header")
+            set_OP_bgAnimate(0)
+            clearInterval(BGAnimationInterval)
+        }
+
+        function enableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=StartAnimateLink
+                    element.onmouseleave=StopAnimateLink
+                    
+                    console.log("Parsed: ", localStorage.getItem('pageParsed'))
+                    if(localStorage.getItem('pageParsed') == 0){
+                        TokenizeLink(element);
+                    }
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(1)
+
+        }
+
+        function disableLinkAnimations(){
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    element.onmouseenter=null
+                    element.onmouseleave=null
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+            set_OP_linkAnimate(0)
+
+        }
+        var cx, cy;
+        var x, y;
+    
+        cx = 5;
+        cy = 5;
+        x = 5;
+        y = 5;
+    
+        let b1 = document.getElementById("vbackground");
+        let b2 = document.getElementById("ibackground");
+        let b3 = document.getElementById("midground");
+        let b4 = document.getElementById("foreground");
+    
+        function check() {
+            if(OP_bgAnimate = 0){
+                clearInterval(BGAnimationInterval)
+            }
+            let distance = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
+            distance = distance / 5;
+    
+            if((cx < (x + 10)) || (cx < (x - 10)) ){
+                cx = cx + 1 * distance;
+            }
+            if((cx > (x + 10)) || (cx > (x - 10)) ){
+                cx = cx - 1 * distance;
+            }
+            
+            if((cy < (y + 10)) || (cy < (y - 10)) ){
+                cy = cy + 1 * distance;
+            }
+            if((cy > (y + 10)) || (cy > (y - 10)) ){
+                cy = cy - 1 * distance;
+            }
+    
+            b1.style.transform = `translate(${cx/150}px, ${cy/60}px)`;
+            b2.style.transform = `translate(${cx/75}px, ${cy/50}px)`;
+            b3.style.transform = `translate(${cx/40}px, ${cy/40}px)`;
+            b4.style.transform = `translate(${cx/20}px, ${cy/30}px)`;
+        }
+
+        window.addEventListener("mousemove", function (e) {
+            // Gets the x,y position of the mouse cursor
+            if(OP_bgAnimate = 1) {
+                x = e.clientX - (window.innerWidth/2);
+                y = e.clientY - (window.innerHeight/2);
+            }
+            // sets the image cursor to new relative position
+        });
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            FetchUserInfo()
+            set_OP_pageParsed(0)
+
+            const links = document.getElementsByClassName('skulk-link')
+            console.log("Link Animate?: ", localStorage.getItem('linkAnimate'))
+            Array.from(links).forEach(
+                function(element, index, array){
+                    if(localStorage.getItem('linkAnimate') != 0){
+                        element.onmouseenter=StartAnimateLink
+                        element.onmouseleave=StopAnimateLink
+                    }
+                    
+                    console.log("Parsed: ", localStorage.getItem('pageParsed'))
+                    if(localStorage.getItem('pageParsed') == 0){
+                        TokenizeLink(element);
+                    }
+                }
+            )
+            //Flag the page as parsed to avoid double parsing
+            set_OP_pageParsed(1)
+        });
+
+        function HeaderSetup(){
+            console.log("USER", userInfo)
+
+            if(userInfo){
+                const USERNAME = userInfo.username
+                const ROLES = userInfo.roles
+                nameElements = document.getElementsByClassName('NAME_DISPLAY')
+                for(let element of nameElements){
+                    element.innerHTML = USERNAME
+                }
+            }
+            
+        };
+
+    </script>
+
