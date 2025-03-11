@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="/assets/98.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/fonts/rubik-glitch/index.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Shadows+Into+Light&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <%- include('AccountNav'); -%>
@@ -19,6 +23,7 @@
         position: fixed;
         top: 0px;
         left: 0px;
+        z-index: -1;
     }
 
     #FooterIcon{
@@ -30,6 +35,8 @@
     <canvas id="vael-background">
 
     </canvas>
+    <script src="https://cdn.jsdelivr.net/npm/noisejs@2.1.0/index.min.js"></script>
+
     <script type="module" src="./main.js"></script>
 
     <script>
@@ -137,6 +144,5 @@
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
-
     </script>
 

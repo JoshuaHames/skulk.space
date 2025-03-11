@@ -200,6 +200,15 @@ app.get('/vael',(req, res) => {
     res.render('vael');
 });
 
+//Vael Partials for HTMX
+app.get('/vaelmain',(req, res) => {
+    res.render('partials/Vael/vaelmain');
+});
+
+app.get('/vaelabout',(req, res) => {
+    res.render('partials/Vael/vaelabout');
+});
+
 
 //Controlled Routes
 app.use('/QuarryUserDetails', verifyRoles(ROLES_LIST.User), require('./routes/quarryuserdetails'));

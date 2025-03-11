@@ -1,0 +1,31 @@
+<style>
+    #MainLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+</style>
+
+<div id="Grave-Header">
+    <h1 id="vael-top"class="RainbowText">₊˚✧ VAEL ✧˚₊</h1>
+    <h2 id="identity-label">Kalea / 1997 / She-Elf / Bat </h2>
+    <h4>multifaceted freelance artist and game devloper.</h4>
+    <h3>✦ Currently taking comissions! ✦</h3>
+</div>
+
+<div class="section">
+    <div id="MainLinks">
+        <div class="MainLink" onclick="animateContent()" hx-trigger="click delay:0.14s"hx-get="/vaelabout" hx-target="#Vael-Content">About Me</div>
+        <div class="MainLink" onclick="animateContent()" hx-trigger="click delay:0.14s"hx-get="/vaelportfolio" hx-target="#Vael-Content">Portfolio</div>
+        <div class="MainLink" onclick="animateContent()" hx-trigger="click delay:0.14s"hx-get="/vaelprices" hx-target="#Vael-Content">TOS and Prices</div>
+    </div>
+    <div id="SocialLinks">
+        <a class="SocialLink">Bluesky</a>
+        <a class="SocialLink">Instagram</a>
+        <a class="SocialLink">Tipjar</a>
+    </div>
+
+</div>
