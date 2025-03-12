@@ -142,6 +142,20 @@ class CustomOutlinePass extends Pass {
         return clamp(num, 0.0, 1.0);
       }
 
+      float getAverageNormalDiff(vec3 normal, int range, float div){
+        float total = 0.0f;
+        float blend = 1.0f;
+        for(int i = 0; i < range; i++){
+          total += distance(normal, getPixelNormal(i, 0)) / (div / (1.0f - (div/(blend))));
+          total += distance(normal, getPixelNormal(0, i)) / div;
+          total += distance(normal, getPixelNormal(0, i)) / div;
+          total += distance(normal, getPixelNormal(0, -1 * i))/ div;
+          blend += 1.0f;
+        }
+
+        return total;
+      }
+
 			void main() {
 				vec4 sceneColor = texture2D(sceneColorBuffer, vUv);
 				float depth = getPixelDepth(0, 0);
@@ -156,15 +170,9 @@ class CustomOutlinePass extends Pass {
 
 		  	// Get the difference between normals of neighboring pixels and current
 		  	float normalDiff = 0.0;
-		  	normalDiff += distance(normal, getPixelNormal(1, 0));
-		  	normalDiff += distance(normal, getPixelNormal(0, 1));
-		  	normalDiff += distance(normal, getPixelNormal(0, 1));
-		  	normalDiff += distance(normal, getPixelNormal(0, -1));
 
-        normalDiff += distance(normal, getPixelNormal(1, 1));
-        normalDiff += distance(normal, getPixelNormal(1, -1));
-        normalDiff += distance(normal, getPixelNormal(-1, 1));
-        normalDiff += distance(normal, getPixelNormal(-1, -1));
+        normalDiff = getAverageNormalDiff(normal, 8, 8.0f);
+
 
         // Apply multiplier & bias to each 
         float depthBias = multiplierParameters.x;
@@ -172,13 +180,13 @@ class CustomOutlinePass extends Pass {
         float normalBias = multiplierParameters.z;
         float normalMultiplier = multiplierParameters.w;
 
-        depthDiff = depthDiff * depthMultiplier;
+        depthDiff = depthDiff * (depthMultiplier * (1.0f - (depth * depth * 4.0f)));;
         depthDiff = saturate(depthDiff);
         depthDiff = pow(depthDiff, depthBias);
 
-        normalDiff = normalDiff * normalMultiplier;
+        normalDiff = normalDiff * (normalMultiplier * (1.f - (depth * depth * 4.0f)));
         normalDiff = saturate(normalDiff);
-        normalDiff = pow(normalDiff, normalBias);
+        normalDiff = pow(normalDiff, (normalBias - (depth * depth)));
 
 
 		  	float outline = normalDiff + depthDiff;
@@ -210,7 +218,7 @@ class CustomOutlinePass extends Pass {
         normalBuffer: {},
         outlineColor: { value: new THREE.Color(0x000000) },
         //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
-        multiplierParameters: { value: new THREE.Vector4(1, 1, 1, 1) },
+        multiplierParameters: { value: new THREE.Vector4(1, 1, 3.0, 0.85) },
         cameraNear: { value: this.renderCamera.near },
         cameraFar: { value: this.renderCamera.far },
         screenSize: {

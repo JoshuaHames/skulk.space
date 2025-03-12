@@ -39,8 +39,6 @@ app.use(express.urlencoded({ extended: false }));
 //middleware for cookies
 app.use(cookieParser());
 
-let SplashText = [];
-
 //SQL
 const sql = require('sqlite3').verbose();
 
@@ -170,7 +168,7 @@ app.use(function(req, res, next){
 
 
 //Middleware Routes
-app.use('/three', express.static('node_modules/three'))
+app.use('/three', express.static('three'))
 
 //API Routes
 app.use('/', require('./routes/root'));

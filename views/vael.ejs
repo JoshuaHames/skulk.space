@@ -13,15 +13,45 @@ function animateContent(){
 
 <style>
 @media only screen and (min-device-width:1400px) { /* For Desktop */
+    #vaelPFP{
+        width: 230px;
+        height: 230px;
+        margin-top: 5vh;
+        margin-bottom:0;
+        border-radius: 50%;
+        animation: breath 3s alternate-reverse infinite;
+    }
+
     #Grave-Header{
         text-align: center;
+    }
+
+    .LooseLink{
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 5px;
+        padding: 15px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        width: 240px;
+        min-width: 240px;
+        height: 30px;
+        font-size: 25px;
+        justify-self: center;
+    }
+
+    .LooseLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
     }
 
     .MainLink {
         direction: var(--site-language-direction);
         overflow: hidden;
         text-align: center;
-        margin: 10px;
+        margin: 5px;
         padding: 15px;
         background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
         border: 1px rgb(0, 0, 0) solid;
@@ -80,9 +110,83 @@ function animateContent(){
         margin-bottom: 30px;
         color: rgb(233, 159, 0);
     }
+    .SocialLink{
+        direction: var(--site-language-direction);
+        display: grid;
+        grid-template-columns: 50% 50%;
+        margin: 5px;
+        padding-left: 15px;
+        background-image: linear-gradient(rgb(173, 0, 0), rgb(63, 0, 0));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        grid-column-start: 2;
+        grid-column-end: 2;
+        width: 300px;
+        min-width: 300px;
+        height: 50px;
+        font-size: 20px;
+        align-items: center;
+    }
+
+    .SocialLink:hover{
+        cursor: pointer;
+    }
+
+    .social-icon{
+        justify-self: right;
+        margin-right: 20px;
+        vertical-align: middle;
+        grid-column-start: 2;
+    }
+
+    #MainLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #SocialLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
 }
 
 @media only screen and (max-device-width: 1400px) { /* For Mobile */
+
+    .LooseLink{
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 5px;
+        padding: 15px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        width: 240px;
+        min-width: 240px;
+        height: 30px;
+        font-size: 25px;
+    }
+
+    .MainLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
+    }
+
+    #vaelPFP{
+        width: 230px;
+        height: 230px;
+        margin-top: 5vh;
+        margin-bottom:0;
+        border-radius: 50%;
+        animation: breath 3s alternate-reverse infinite;
+    }
     #Grave-Header{
         text-align: center;
     }
@@ -93,7 +197,7 @@ function animateContent(){
         flex-grow: 1;
         flex-shrink: 1;
         text-align: center;
-        margin: 15px;
+        margin: 5px;
         padding: 10px;
         background-color:rgb(26, 16, 25);
         }
@@ -138,6 +242,48 @@ function animateContent(){
         margin-bottom: 30px;
         color: rgb(233, 159, 0);
     }
+
+    .SocialLink{
+
+    }
+
+    .SocialLink:hover{
+        cursor: pointer;
+    }
+
+    #MainLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #SocialLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+
+}
+
+.VerySlowFadein{
+    animation: fadein 15.15s forwards;
+}
+
+.SlowFadein{
+    animation: fadein 5.15s forwards;
+}
+.QuickFadein{
+    animation: fadein 0.15s forwards;
+}
+    
+@keyframes fadein{
+    0%{opacity: 0;}
+    100%{opacity: 100;}
 }
 
 @keyframes breath {
@@ -151,7 +297,7 @@ function animateContent(){
 </style>
 
 <div class="CenterBody" id="AboutSection">
-    <div id="Vael-Content" class="container" hx-get="/vaelmain" hx-trigger="load">
+    <div id="Vael-Content" class="container SlideIn" hx-get="/vaelmain" hx-trigger="load">
 
     </div>
 </div>

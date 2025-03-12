@@ -1,11 +1,7 @@
 import * as THREE from "/three/build/three.module.js";
 import { OBJLoader } from '/three/examples/jsm/loaders/OBJLoader.js';
-import { OrbitControls } from "/three/examples/jsm/controls/OrbitControls.js";
 import { EffectComposer } from "/three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "/three/examples/jsm/postprocessing/RenderPass.js";
-import { ShaderPass } from "/three/examples/jsm/postprocessing/ShaderPass.js";
-import { FXAAShader } from "/three/examples/jsm/shaders/FXAAShader.js";
-
 import { CustomOutlinePass } from "./scripts/CustomOutlinePass.js";
 const noise = new Noise(Math.random())
 
@@ -13,17 +9,13 @@ const scene = new THREE.Scene();
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const objLoader = new OBJLoader();
-let crossModel = null
 
 scene.fog = new THREE.Fog( 0x000000, 50, 450 );
 
 let mouseDirection = 0
-
-const camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000)
-
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#vael-background'),
-    antialias: true,
 });
 
 
@@ -48,21 +40,14 @@ const pass = new RenderPass(scene, camera);
 composer.addPass(pass);
 
 // Outline pass.
+
+
 const customOutline = new CustomOutlinePass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  scene,
-  camera
-);
-composer.addPass(customOutline);
-
-// Antialias pass.
-const effectFXAA = new ShaderPass(FXAAShader);
-effectFXAA.uniforms["resolution"].value.set(
-  1 / window.innerWidth, 
-  1 / window.innerHeight
-);
-composer.addPass(effectFXAA);
-
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    scene,
+    camera
+  );
+  composer.addPass(customOutline);
 
 function onPointerMove( event ) {
 
@@ -96,6 +81,12 @@ function hexToRgb(hex, power = 1) {
         g: ((num >> 8) & 255) / power,
         b: (num & 255) / power
     };
+}
+
+function lerpClamped(value, min, max){
+    if (value <= min) return 0;
+    if (value >= max) return 1;
+    return ((value - min) / (max - min) - 0.15);
 }
 
 function lerp(a, b, t) {
@@ -137,50 +128,8 @@ customOutline.setSize(window.innerWidth, window.innerHeight);
 camera.position.setY(90)
 camera.position.setZ(110)
 
-
-const pointLight = new THREE.PointLight(0xffffff)
-
 const ambiantLight = new THREE.AmbientLight(0xffffff, 0.001)
-scene.add(pointLight, ambiantLight)
-
-//Helpers
-const gridHelper = new THREE.GridHelper(200,50)
-const lightHelper = new THREE.PointLightHelper(pointLight)
-scene.add(lightHelper)
-
-//const controls = new OrbitControls(camera, renderer.domElement);
-
-let starList = []
-let pillarList = []
-
-function addStar() {
-    const geo = new THREE.SphereGeometry(0.25, 24, 24);
-    const material = new THREE.MeshStandardMaterial({color: 0xFFFF00});
-    const star = new THREE.Mesh(geo, material);
-
-    const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
-
-    star.position.set(x, y, z)
-
-    scene.add(star)
-    starList.push(star)
-}
-function addPillar(geo, x, y, z) {
-    //onst geo = new THREE.BoxGeometry(1.8,1.8,3.6)
-    const material = new THREE.MeshStandardMaterial({color: 0xFFFF00});
-    const pillar = new THREE.Mesh(geo, material);
-
-    pillar.position.set(x, y, z)
-
-    scene.add(pillar)
-    pillarList.push({piller: pillar})
-}
-
-function getRandomInt(min, max) {
-    const minCeiled = Math.ceil(min);
-    const maxFloored = Math.floor(max);
-    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
-  }
+scene.add(ambiantLight)
 
 //Array(200).fill().forEach(addStar)
 let graveCrossGeo = null
@@ -233,84 +182,98 @@ objLoader.load(
 	},
 );
 
-let rangeX = 6
-let rangeY = 60
 
+let pillarList = []
+
+function addPillar(geo, x, y, z) {
+    //onst geo = new THREE.BoxGeometry(1.8,1.8,3.6)
+    const material = new THREE.MeshStandardMaterial({color: 0xFFFF00, transparent: true});
+    const pillar = new THREE.Mesh(geo, material);
+
+    pillar.position.set(x, y, z)
+
+    scene.add(pillar)
+    pillarList.push({piller: pillar})
+}
+
+let rangeX = 4
+let rangeY = 20
 
 function finishedLoad(){
     for (let lx = (rangeX * -1); lx < rangeX; lx++){
         for (let ly = (rangeY * -1); ly < rangeY; ly++){
-            addPillar(graveList[Math.floor(Math.random() * graveList.length)], 250 + lx*30*getScaledNoise(lx, ly, 35, 0.4, 1.7), 0, ly * 6)
+            addPillar(graveList[Math.floor(Math.random() * graveList.length)], 200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
         }
     }
     
     for (let lx = (rangeX * -1); lx < rangeX; lx++){
         for (let ly = (rangeY * -1); ly < rangeY; ly++){ 
-            addPillar(graveList[Math.floor(Math.random() * graveList.length)], -250 + lx*30*getScaledNoise(lx, ly, 35, 0.4, 1.7), 0, ly * 6)
+            addPillar(graveList[Math.floor(Math.random() * graveList.length)], -200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
         }
     }
 }
 
-camera.rotation.x = -.5 
+camera.rotation.x = -.5
+
+let lastFrameTime = Date.now()
+let lastTickTime = Date.now()
+let currentTime = Date.now()
 function animate(){
+    if(!paused){
+        raycaster.setFromCamera( pointer, camera );
+        let scrollAmount = 0
 
-    requestAnimationFrame(animate)
-    raycaster.setFromCamera( pointer, camera );
-
-    let scrollAmount = 0
-
-    if(mouseDirection == 0){
-        scrollAmount = 0.2
-    } else {
-        scrollAmount = mouseDirection
-    }
-
-    let noisePan = 0
-    let newColor = null
-    let track = 0
-    pillarList.forEach(element => {
-        let dist = raycaster.ray.distanceToPoint(element.piller.position)
-        let noise = getScaledNoise(element.piller.position.x, element.piller.position.z, 60, 0, 3) - (getScaledNoise(element.piller.position.z*1.2, 8, 160, -8, 7))
-        noise = Math.min(Math.max(noise, 0.3), 2.5);
-        let mouseThing = Math.max(0, Math.min(3, 50 / (dist))) + noise
-        let newScale = noise + (Math.max(0, Math.min(2.5, 50 / (dist))) / 8)
-        track += 15
-
-        if(mouseThing > 3.0){
-            newColor = lerpColorEased('0xff00d4', '0xd0f500', normalize(mouseThing, 3.0, 5))
+        if(mouseDirection == 0){
+            scrollAmount = 0.2
         } else {
-            newColor = lerpColorEased('0x000000', '0xff00d4', normalize(mouseThing/1.5, 0, 3.0))
+            scrollAmount = mouseDirection
         }
 
-        element.piller.material.color = hexToRgb(newColor)
-        element.piller.material.emissive = hexToRgb(newColor, (250 / normalize(newScale/1.5, -1, 3.5)))
+        let newColor = null
+        let track = 0
+        currentTime = Date.now()
+        //Limit to 25 Updates a second
+        if(currentTime - lastTickTime > 1000/65){
+            pillarList.forEach(element => {
+                
+                let dist = raycaster.ray.distanceToPoint(element.piller.position)
+                let noise = getScaledNoise(element.piller.position.x, element.piller.position.z, 60, 0, 3) - (getScaledNoise(element.piller.position.z*1.2, 8, 160, -8, 7))
+                noise = Math.min(Math.max(noise, 0.3), 2.5);
+                let mouseThing = Math.max(0, Math.min(3, 50 / (dist))) + noise
+                let newScale = noise + (Math.max(0, Math.min(2.5, 50 / (dist))) / 8)
+                track += 15
 
+                if(mouseThing > 3.0){
+                    newColor = lerpColorEased('0xff00d4', '0xff0800', normalize(mouseThing, 3.0, 5))
+                } else {
+                    newColor = lerpColorEased('0x000000', '0xff00d4', normalize(mouseThing/1.5, 0, 3.0))
+                }
 
-        element.piller.scale.y = newScale
-        element.piller.position.z += scrollAmount
-        element.piller.position.y = mouseThing * 6
+                element.piller.material.color = hexToRgb(newColor)
+                element.piller.material.emissive = hexToRgb(newColor, (250 / normalize(newScale/1.5, -1, 3.5)))
+                element.piller.material.emissiveIntensity = Math.max(0.5, Math.min(2, 50 / (dist)))
 
-        if(element.piller.position.z > 360){
-            element.piller.position.z = -360  //(getRandomInt(-1 * offset, offset ))
-        } else if (element.piller.position.z < -360){
-            element.piller.position.z = 350  //(getRandomInt(-1 * offset, offset ))
+                element.piller.scale.y = newScale
+                element.piller.position.z += scrollAmount
+                element.piller.position.y = mouseThing * 6
+
+                if(element.piller.position.z > 200){
+                    element.piller.position.z = -200  //(getRandomInt(-1 * offset, offset ))
+                } else if (element.piller.position.z < -200){
+                    element.piller.position.z = 200  //(getRandomInt(-1 * offset, offset ))
+                }
+                element.piller.material.opacity = lerpClamped(element.piller.position.z, -198, -180)
+            });
+            lastTickTime = Date.now()
         }
 
-
-    });
--
-
-    pillarList.forEach(element => {
-
-
-    });
-
-    starList.forEach(element => {
-
-    });
-    
-    //controls.update();
-    composer.render();
+        //Limit to 30 Frames a Second
+        if(currentTime - lastFrameTime > 1000/60){
+            composer.render();
+            lastFrameTime = Date.now()
+        }
+    }
+        requestAnimationFrame(animate)
 }
 
 addEventListener("wheel", (e) => {
@@ -323,6 +286,17 @@ addEventListener("wheel", (e) => {
 });
 
 window.addEventListener( 'pointermove', onPointerMove );
+window.addEventListener( 'resize', onWindowResize, false );
 
+function onWindowResize(){
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+    customOutline.setSize(window.innerWidth, window.innerHeight);
+
+}
 
 animate()

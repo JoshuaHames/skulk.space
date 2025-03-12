@@ -267,23 +267,32 @@
         } 
         //Settings Default Checks
         //Background Animations
-        if(localStorage.getItem("bgAnimate") == 1 || !localStorage.getItem("bgAnimate")){
-            enableBGAnimation()
-            cb_gbAnimate.checked = true
-        } else {
-            disableBGAnimation()
-            cb_gbAnimate.checked = false
-        }
 
-        //Link Animations
-        if(localStorage.getItem("linkAnimate") == 1 || !localStorage.getItem("linkAnimate")){
-            enableLinkAnimations()
-            cb_linkAnimate.checked = true
-        } else {
-            disableLinkAnimations()
-            cb_linkAnimate.checked = false
-        }
-        
+            //Set Background Animation CB from Memory
+            if(localStorage.getItem("bgAnimate") == 1 || !localStorage.getItem("bgAnimate")){
+                cb_gbAnimate.checked = true
+            } else {
+                cb_gbAnimate.checked = false
+            }
+            //Set Link Animation CB from Memory
+            if(localStorage.getItem("linkAnimate") == 1 || !localStorage.getItem("linkAnimate")){
+                cb_linkAnimate.checked = true
+            } else {
+                cb_linkAnimate.checked = false
+            }
+
+            //Eanble BG Animation Based on CB
+            if(cb_gbAnimate.checked){
+                enableBGAnimation()
+            } else {
+                disableBGAnimation()
+            }
+            //Enable Link Animation based on CB
+            if(cb_linkAnimate.checked){
+                enableLinkAnimations()
+            } else {
+                disableLinkAnimations()
+            }
     });
 
     function onHover(){
@@ -329,10 +338,10 @@
             <div id="AccountCreatedLabel">Login for Persistant Settings!</div>
             <div class="Small-Header">Options</div>
             
-            <input onClick='TogglebgAnimate()' type="checkbox" id="CB_bgAnimate" name="CB_bgAnimate" value="CB_bgAnimate_val">
+            <input onClick='TogglebgAnimate()' type="checkbox" id="CB_bgAnimate" name="CB_bgAnimate">
             <label class ="Setting_CB" for="CB_bgAnimate">Animate Background</label><br>
             
-            <input onClick='ToggleLinkAnimate()' type="checkbox" id="CB_linkAnimate" name="CB_linkAnimate" value="CB_linkAnimate_val">
+            <input onClick='ToggleLinkAnimate()' type="checkbox" id="CB_linkAnimate" name="CB_linkAnimate">
             <label class ="Setting_CB" for="CB_linkAnimate">Link Animations</label><br>
         </div>
     </div>
