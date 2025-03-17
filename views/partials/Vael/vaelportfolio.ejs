@@ -116,6 +116,25 @@
         margin-right: 10%;
         height: auto;
     }
+
+    #renPartial{
+        width:40%;
+        height: auto;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+    #batty{
+        margin-left: 2.5%;
+        width: 45%;
+        height: auto;
+    }
+
+    #pole{
+        margin-right: 2.5%;
+        width: 45%;
+        height: auto;
+    }
 </style>
 
 <div id="Grave-Header">
@@ -124,11 +143,14 @@
 </divd>
 
 <div class="section">
-    <h4 id="AboutLabel">This Portfolio is currently curated around my commissions</br>to see more of what I do, check out my socials!</h4>
+    <h4 id="AboutLabel">
+        Prices listed are for reference, visit the TOS page for a full breakdown of services!
+        <div class="LooseLink" onclick="animateContent()" hx-trigger="click delay:0.07s"hx-get="/vaeltos" hx-target="#Vael-Content">Terms of Serivce</div>
+        This Portfolio is currently curated for my commissions.</br>To see more of what I do, check out my socials!
+    </h4>
     <div id="VaelGalPage">
 
         <h3 class="SectionLabel">✦ Full Body - Painted ✦</h3>
-        <hr class="sectionDivider"/>
         <h4 class="SectionSubLabel">Fully rendered Full-body portraits with a focus on form and charactor: $160</h4>
         <div class = "portSection">
             <img class="portImg o1x1" src="assets/vael-page/PaintedVael.png" onclick="expand(this)"></img>
@@ -138,8 +160,8 @@
             <img class="portImg o1x1" src="assets/vael-page/PaintedFullbodyWIP02.png" onclick="expand(this)"></img>
         </div>
 
-        <h3 class="SectionLabel">✦ Full Body - Lineart ✦</h3>
         <hr class="sectionDivider"/>
+        <h3 class="SectionLabel">✦ Full Body - Lineart ✦</h3>
         <h4 class="SectionSubLabel">Full-body portraits with a lineart style: $100 </h4>
         <div class = "portSection-lineart">
             <img id="vaelref" class="portImg" src="assets/vael-page/FullBodyLineart02.jpg" onclick="expand(this)"></img>
@@ -148,34 +170,26 @@
             <img id="thelads" class="portImg" src="assets/vael-page/FullBodyLineart01.png" onclick="expand(this)"></img>
         </div>
 
-        <h3 class="SectionLabel">✦ Partials - Painted ✦</h3>
         <hr class="sectionDivider"/>
-        <h4 class="SectionSubLabel">Painted Partials with Background: $100 </h4>
+        <h3 class="SectionLabel">✦ Partials - Painted ✦</h3>
+        <h4 class="SectionSubLabel">Fully rendered partials: $100 </h4>
         <div class = "portSection-lineart">
-            <img id="vaelref" class="portImg" src="assets/vael-page/FullBodyLineart02.jpg" onclick="expand(this)"></img>
-            <img id="clowncat" class="portImg" src="assets/vael-page/FullBodyLineart04.jpg" onclick="expand(this)"></img>
-            <img id="kinkykitty" class="portImg" src="assets/vael-page/FullBodyLineart03.jpg" onclick="expand(this)"></img>
-            <img id="thelads" class="portImg" src="assets/vael-page/FullBodyLineart01.png" onclick="expand(this)"></img>
+            <img id="renPartial"class="portImg o1x1" src="assets/vael-page/PartialPainted01.jpg" onclick="expand(this)"></img>
         </div>
 
-        <h3 class="SectionLabel">✦ Partials - Painted ✦</h3>
         <hr class="sectionDivider"/>
-        <h4 class="SectionSubLabel">Painted Partials with Background: $100 </h4>
+        <h3 class="SectionLabel">✦ Partials - Lineart ✦</h3>
+        <h4 class="SectionSubLabel">Partials with a lineart style: $60 </h4>
         <div class = "portSection-lineart">
-            <img id="vaelref" class="portImg" src="assets/vael-page/FullBodyLineart02.jpg" onclick="expand(this)"></img>
-            <img id="clowncat" class="portImg" src="assets/vael-page/FullBodyLineart04.jpg" onclick="expand(this)"></img>
-            <img id="kinkykitty" class="portImg" src="assets/vael-page/FullBodyLineart03.jpg" onclick="expand(this)"></img>
-            <img id="thelads" class="portImg" src="assets/vael-page/FullBodyLineart01.png" onclick="expand(this)"></img>
+            <img id="renPartial"class="portImg o1x1" src="assets/vael-page/vaelpfp.png" onclick="expand(this)"></img>
         </div>
-        
-        <h3 class="SectionLabel">✦ Partials - Painted ✦</h3>
+
         <hr class="sectionDivider"/>
-        <h4 class="SectionSubLabel">Painted Partials with Background: $100 </h4>
+        <h3 class="SectionLabel">✦ Clean Sketch✦</h3>
+        <h4 class="SectionSubLabel">Clean Sketches, fullbody or partial: $20</h4>
         <div class = "portSection-lineart">
-            <img id="vaelref" class="portImg" src="assets/vael-page/FullBodyLineart02.jpg" onclick="expand(this)"></img>
-            <img id="clowncat" class="portImg" src="assets/vael-page/FullBodyLineart04.jpg" onclick="expand(this)"></img>
-            <img id="kinkykitty" class="portImg" src="assets/vael-page/FullBodyLineart03.jpg" onclick="expand(this)"></img>
-            <img id="thelads" class="portImg" src="assets/vael-page/FullBodyLineart01.png" onclick="expand(this)"></img>
+            <img id="batty" class="portImg" src="assets/vael-page/CleanSketch01.jpg" onclick="expand(this)"></img>
+            <img id="pole" class="portImg" src="assets/vael-page/Illustration94.png" onclick="expand(this)"></img>
         </div>
     
         <%- include('snips/SocialLinks'); -%>
