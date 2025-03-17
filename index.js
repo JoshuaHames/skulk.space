@@ -206,6 +206,9 @@ app.get('/vaelmain',(req, res) => {
 app.get('/vaelabout',(req, res) => {
     res.render('partials/Vael/vaelabout');
 });
+app.get('/vaelportfolio',(req, res) => {
+    res.render('partials/Vael/vaelportfolio');
+});
 
 
 //Controlled Routes
