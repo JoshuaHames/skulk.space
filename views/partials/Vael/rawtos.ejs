@@ -1,0 +1,601 @@
+<%- include('../../partials/vael-header'); -%>
+
+<script>
+function animateContent(){
+    document.getElementById("Vael-Content").classList.add('Vael-Animate')
+    setTimeout(function() {
+        document.getElementById("Vael-Content").classList.remove('Vael-Animate')
+    }, 150);
+}
+
+function openForm(){
+    window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLScIIwmua4ktkjlH0I4FJ3EZH1dCx_acVY21jAYcY_F0HJNf4g/viewform"
+}
+</script>
+
+<style>
+@media only screen and (min-device-width:1400px) { /* For Desktop */
+    #vael-background{
+        display: none;
+    }
+
+    #vaelPFP{
+        width: 230px;
+        height: 230px;
+        margin-top: 5vh;
+        margin-bottom:0;
+        border-radius: 50%;
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+    #Grave-Header{
+        text-align: center;
+    }
+
+    .LooseLink{
+        font-family: "Sour Gummy", sans-serif;
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 5px;
+        padding: 15px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        width: 240px;
+        min-width: 240px;
+        height: 30px;
+        font-size: 25px;
+        justify-self: center;
+        color: rgb(233, 159, 0);
+    }
+
+    .LooseLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
+    }
+
+    .MainLink {
+        font-family: "Sour Gummy", sans-serif;
+        color: rgb(233, 159, 0);
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 5px;
+        padding: 15px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        grid-column-start: 2;
+        grid-column-end: 2;
+        width: 240px;
+        min-width: 240px;
+        height: 30px;
+        font-size: 25px;
+    }
+
+    .MainLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
+    }
+
+    .section{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    #vael-top{
+        margin-top: 10vh;
+        margin-bottom: 0px;
+    }
+    #identity-label{
+        margin-top: 0px;
+    }
+    #Vael-Content{
+        margin-top: 2%;
+        transition: transform .15s ease-in;
+    }
+
+    .Vael-Animate{
+        transition: transform .15s ease-in;
+        transform: rotate3d(0, 1, 0, 90deg);
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background-color: rgba(66, 50, 65, 0.829);
+        padding: 20px;
+        border-top-left-radius: 21vw;
+        border-top-right-radius: 21vw;
+        border-right: 1.5vw solid rgba(26, 16, 25, 0.808);
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+    
+    h1, h2, h3,h4 {
+        font-family: "Sour Gummy", sans-serif;
+        color: rgb(233, 159, 0);
+        text-shadow: 3px 3px black;
+    }
+    .section {
+        margin-bottom: 30px;
+        color: rgb(233, 159, 0);
+    }
+    .SocialLink{
+        direction: var(--site-language-direction);
+        display: grid;
+        grid-template-columns: 50% 50%;
+        margin: 5px;
+        padding-left: 15px;
+        background-image: linear-gradient(rgb(173, 0, 0), rgb(63, 0, 0));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        grid-column-start: 2;
+        grid-column-end: 2;
+        width: 300px;
+        min-width: 300px;
+        height: 50px;
+        font-size: 20px;
+        align-items: center;
+    }
+
+    .SocialLink:hover{
+        cursor: pointer;
+    }
+
+    .social-icon{
+        justify-self: right;
+        margin-right: 20px;
+        vertical-align: middle;
+        grid-column-start: 2;
+    }
+
+    #MainLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #SocialLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #MainHeader{
+    justify-self: center;
+    margin-top: 140px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#VaelAboutPage{
+        width: 90%;
+        justify-self: center;
+        border-bottom: #942b68 5px solid;
+        border-right: #942b68 5px solid;
+        border-top: #5c1b41 5px solid;
+        border-left: #5c1b41 5px solid;
+        background-image: linear-gradient(45deg, #792455, #792455);
+        text-align: left;
+    }
+    .TOSLabel{
+        justify-self: center;
+    }
+
+    .TOSContent{
+        font-family: "Sour Gummy", sans-serif;
+        font-size: x-large;
+        color: white;
+        margin: 2%;
+    }
+
+    li{
+        color: white;
+        font-family: "Sour Gummy", sans-serif;
+        font-size: x-large;
+    }
+
+    ul{
+        margin-left: 15px;
+    }
+
+    h4{
+        margin-bottom: 4px;
+    }
+}
+
+@media only screen and (max-device-width: 1400px) { /* For Mobile */
+
+    #vaelPFP{
+        width: 230px;
+        height: 230px;
+        margin-top: 1.5vh;
+        margin-bottom:0;
+        border-radius: 50%;
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+    #Grave-Header{
+        text-align: center;
+    }
+
+    .LooseLink{
+        font-family: "Sour Gummy", sans-serif;
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 20px;
+        padding: 20px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        width: 440px;
+        min-width: 440px;
+        height: 60px;
+        font-size: 45px;
+        justify-self: center;
+        color: rgb(233, 159, 0);
+    }
+
+    .LooseLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
+    }
+
+    .MainLink {
+        font-family: "Sour Gummy", sans-serif;
+        color: rgb(233, 159, 0);
+        direction: var(--site-language-direction);
+        overflow: hidden;
+        text-align: center;
+        margin: 20px;
+        padding: 20px;
+        background-image: linear-gradient(rgb(85, 33, 80), rgb(26, 16, 25));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        grid-column-start: 2;
+        grid-column-end: 2;
+        width: 440px;
+        min-width: 440px;
+        height: 60px;
+        font-size: 45px;
+    }
+
+    .MainLink:hover{
+        cursor: pointer;
+        animation: pulse 0.75s alternate-reverse infinite ease-in;
+    }
+
+    .section{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    #vael-top{
+        margin-top: 10vh;
+        margin-bottom: 0px;
+    }
+    #identity-label{
+        margin-top: 0px;
+        font-size: 3.5vh;
+    }
+    #Vael-Content{
+        margin-top: 2%;
+        transition: transform .15s ease-in;
+    }
+
+    .Vael-Animate{
+        transition: transform .15s ease-in;
+        transform: rotate3d(0, 1, 0, 90deg);
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+        background-color: rgba(66, 50, 65, 0.829);
+        padding: 20px;
+        border-top-left-radius: 45vw;
+        border-top-right-radius: 45vw;
+        border-right: 1.5vw solid rgba(26, 16, 25, 0.808);
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+
+    h1, h2, h3,h4 {
+        font-family: "Sour Gummy", sans-serif;
+        color: rgb(233, 159, 0);
+        text-shadow: 3px 3px black;
+    }
+    .section {
+        margin-bottom: 30px;
+        color: rgb(233, 159, 0);
+    }
+    .SocialLink{
+        font-family: "Sour Gummy", sans-serif;
+        direction: var(--site-language-direction);
+        display: grid;
+        grid-template-columns: 50% 50%;
+        margin: 5px;
+        padding-left: 15px;
+        background-image: linear-gradient(rgb(173, 0, 0), rgb(63, 0, 0));
+        border: 1px rgb(0, 0, 0) solid;
+        border-radius: 25px;
+        grid-column-start: 2;
+        grid-column-end: 2;
+        width: 440px;
+        min-width: 440px;
+        height: 75px;
+        font-size: 45px;
+        align-items: center;
+    }
+
+    .SocialLink:hover{
+        cursor: pointer;
+    }
+
+    .social-icon{
+        justify-self: right;
+        margin-right: 20px;
+        vertical-align: middle;
+        grid-column-start: 2;
+        width: 65px;
+    }
+
+    .CenterHeader{
+        font-size: 3vh;
+    }
+
+    #MainLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #SocialLinks{
+        width: 100%;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        justify-items: center;
+
+    }
+    #MainHeader{
+    justify-self: center;
+    margin-top: 140px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#VaelAboutPage{
+        width: 95%;
+        justify-self: center;
+        border-bottom: #942b68 5px solid;
+        border-right: #942b68 5px solid;
+        border-top: #5c1b41 5px solid;
+        border-left: #5c1b41 5px solid;
+        background-image: linear-gradient(45deg, #792455, #792455);
+        text-align: left;
+    }
+    .TOSLabel{
+        text-align: center;
+        width: 100%;
+    }
+
+    .TOSContent{
+        font-family: "Sour Gummy", sans-serif;
+        font-size: x-large;
+        color: white;
+        margin: 2%;
+    }
+
+    .tosLi{
+        color: white;
+        font-family: "Sour Gummy", sans-serif;
+        font-size: x-large;
+    }
+
+    .tosUl{
+        margin-left: 15px;
+    }
+
+    h4{
+        margin-bottom: 4px;
+    }
+}
+
+.VerySlowFadein{
+    animation: fadein 15.15s forwards;
+}
+
+.SlowFadein{
+    animation: fadein 5.15s forwards;
+}
+.QuickFadein{
+    animation: fadein 0.15s forwards;
+}
+    
+@keyframes fadein{
+    0%{opacity: 0;}
+    100%{opacity: 100;}
+}
+
+@keyframes breath {
+        0%{box-shadow: 0 0 10px rgb(233, 0, 221);}
+        100%{box-shadow: 0 0 32px rgb(233, 0, 0);}
+    }
+@keyframes pulse {
+    0%{border-color: rgb(0, 0, 0); color: rgb(233, 159, 0);}
+    100%{border-color: rgb(129, 0, 0); color:rgb(199, 0, 0);}
+}
+</style>
+
+<div class="CenterBody" id="AboutSection">
+    <div id="Vael-Content" class="container SlideIn">
+        <h1 id="MainHeader"> Terms of Service </h1>
+        <div id="VaelAboutPage">
+            <h3 class="TOSLabel">Contract and Work Time</h3>
+            <p class="TOSContent">
+                By commissioning me, you accept and agree to all conditions and terms stated below. Breaking the terms of service may result in:</br>
+            </p>
+            <ul class="tosUl">
+                <li class="tosLI">Termination of the commission without refund</li>
+                <li class="tosLI">Reclamation of any work done, reserving the right to use the content for personal and promotional purposes.</li>
+                <li class="tosLI">The loss of private or semi-private commission status</li>
+                <li class="tosLI">Blacklisting from future commissioning opportunities</li>
+            </ul>
+            </br>
+            <p class="TOSContent" style="justify-self: center;">You may contact me if you have additional questions.</p>
+            <hr class="sectionDivider"/>
+            
+            <h3 class="TOSLabel">Content Rights and Posting Policy</h3>
+            <h4>Strict Forbidden Use Policy</h4>
+            <p class="TOSContent">It is forbidden under any circumstance or condition to use any of my work for the following:</p>
+            <ul class="tosUl">
+                <li class="tosLI">NFT and Blockchain Technology</li>
+                <li class="tosLI">Training or Verification of Neural Networks</li>
+                <li class="tosLI">Promotion or association with intolerant ideologies or individuals</li>
+            </ul>
+            
+            <h4>Personal Commission Rights</h4>
+            <p class="TOSContent">
+                I reserve the right to use regularly commissioned artwork for personal and promotional purposes, 
+                such as posting to social media, advertisements for future commissions, portfolios, selling prints, etc.</br>
+                Personal commissions are for personal use only; you may NOT use them in a commercial capacity.</br> </br>
+                You may share and reproduce the artwork as much as you'd like. If posting or sharing any of my work online, I ask that you make a reasonable attempt to provide credit and link to one of my socials, though this is not an official term of service.</br>
+            </br>
+                Personal Uses Include:
+            </p>
+            <ul class="tosUl">
+                <li class="tosLI">Profile Pictures</li>
+                <li class="tosLI">An individual's Social Media Banners</li>
+                <li class="tosLI">Discord emotes/stickers</li>
+                <li class="tosLI">Telegram Stickers</li>
+                <li class="tosLI">And similar uses where the art is being used by an individual for personal expression</li>
+            </ul>
+            <p class="TOSContent">Commercial Uses Include:</p>
+            <ul class="tosUl">
+                <li class="tosLI">Use in Advertising</li>
+                <li class="tosLI">Use in packaging or branding</li>
+                <li class="tosLI">Resale of physical products</li>
+                <li class="tosLI">Company website or social media embellishment</li>
+                <li class="tosLI">Concepting for other media such as video games or animation (if being created in a commercial capacity)</li>
+                <li class="tosLI">And similar uses where the art is being used by an individual or corporate entity with the intent to self-promote or generate revenue</li>
+            </ul>
+            
+            <p class="TOSContent">
+                Private commissions are available for a 50% markup applied to the final cost of the commission.</br>
+                If you pay for a private commission, I will not:
+            </p>
+            <ul class="tosUl">
+                <li class="tosLI">Post the artwork online</li>
+                <li class="tosLI">Use the artwork for promotion</li>
+                <li class="tosLI">Create, sell, or distribute physical prints of the artwork</li>
+            </ul>
+            <p class="TOSContent"> I do reserve the right to:</p>
+            <ul class="tosUl">
+                <li class="tosLI">Claim credit for artwork if posted by someone else</li>
+                <li class="tosLI">Use the artwork in non-public portfolios (such as in job applications)</li>
+                <li class="tosLI">Keep copies of the work for personal reference</li>
+            </ul>
+            <p class="TOSContent"> These Terms Apply Indefinitely.</p> 
+            
+            <h4>Conditional Private Commissions</h4>
+            <p class="TOSContent">
+                Conditional Private Commissions are available for a 15% markup applied to the final cost of the commission.</br>
+                Conditional Private Commissions have the same terms and rights as Private Commissions for a period of 6 months starting from the final delivery date.</br>
+                After 6 months have elapsed, the artwork returns to normal status, and I regain all rights associated with a non-private commission.
+            </p>
+            <hr class="sectionDivider"/>
+            <h3 class="TOSLabel">Acceptable Content and Refunds</h3>
+            <h4>Content</h4>
+            <p class="TOSContent">NSFW requests are permitted for 18+ clients and characters ONLY.</br></br>
+            If I discover that a client commissioning an NSFW piece is under 18, or that the characters depicted are minors, the commission will be canceled immediately, no refund will be given, and the client will be blacklisted from future commissions, NSFW or otherwise.</p>
+            
+            <h4>Preferred Content</h4>
+            <p class="TOSContent">See below for a more complete list of what I will and won't draw; however, this section focuses on what I *like* to draw and if I might be a good match for your character.</br></br>
+            Hopefully, you noticed, but I love clothing and fashion. I studied fashion and costume design in college, and it's often my favorite part of designing characters.
+            Adding an outfit to your character comes at NO ADDITIONAL COST, and indeed, I prefer to draw characters with outfits.</br></br>
+            That's not to say your commission must include clothing, of course. I'm more than happy to draw your character in the buff. But if you'd like them to wear something but aren't sure what, it's something I'd be happy to discuss!</br>
+            </p>            
+
+            <h4>I Will Draw</h4>
+            <ul class="tosUl">
+                <li class="tosLI">Fanart and Official Characters</li>
+                <li class="tosLI">Clothing and Armor</li>
+                <li class="tosLI">NSFW</li>
+                <li class="tosLI">Furries</li>
+                <li class="tosLI">Humans, elves, and other fantasy races</li>
+                <li class="tosLI">SFW Minors and Animals</li>
+            </ul>
+            
+            <h4>I Will NOT Draw</h4>
+            <ul class="tosUl">
+                <li class="tosLI">Mech</li>
+                <li class="tosLI">NSFW Feral</li>
+                <li class="tosLI">Baby Fur</li>
+                <li class="tosLI">Extreme kinks such as scat, necro, etc.</li>
+            </ul>
+
+            <h4>Refunds</h4>
+            <p class="TOSContent">If for some reason you need to cancel your commission, a partial refund will be given based on the amount of work already completed. </br></br>
+                I also reserve the right to personally cancel any commission for any reason, in such cases a FULL refund will be given and I will provide an explanation for the cancelation.</p>
+            
+            <p class="TOSContent" style="justify-self: center; margin-top: 10px; margin-bottom: 10px;">If in doubt, contact me!</p>
+            <hr class="sectionDivider"/>
+            <h3 class="TOSLabel">Additional Characters, Fees, and Alterations</h3>
+            
+            <h4>Additional Characters</h4>
+            <p class="TOSContent">
+                Additional characters can be added to any commission for a flat 50% of the base price, excluding the "clean sketch" category. Additional characters must be interacting or otherwise part of the overall scene.</br>
+            </p>
+            
+            <h4>Alterations</h4>
+            <p class="TOSContent">
+                During the sketch period of your commission, an unlimited number of alterations are permitted. However, after the 4th alteration, additional changes may include a charge related to the amount of work required.</br></br>
+                After the sketch is approved and work begins on the final piece, alterations may come with a charge depending on complexity and time already worked. Minor alterations such as color tweaks or missing elements do not fall under this.</br></br>
+                Examples of Major Alterations:
+            </p>
+            <ul class="tosUl">
+                <li class="tosLI">Large changes to clothing</li>
+                <li class="tosLI">Changes in posing</li>
+                <li class="tosLI">Modifications to facial structure or expression</li>
+                <li class="tosLI">Additional Characters</li>
+            </ul>
+            
+            <h4>Fees</h4>
+            <p class="TOSContent">
+                Complex backgrounds are subject to a 25% fee and must be discussed as part of the initial request. You may request additional outfits for your character at a dynamic rate starting at 15% and going up to 30% depending on the complexity of the request.
+            </p>
+            <hr class="sectionDivider"/>
+            <h3 class="TOSLabel">Completion Times</h3>
+            <p class="TOSContent">
+                Completion Times are highly variable depending on my current workload and the size of the commission. My current workload does not necessitate a queue, so I am able to discuss delivery times on an individual basis. After we discuss your request, I'll provide you a personalized ETA for the sketch and then another ETA for the final piece.  
+            </p>
+            <h3 class="TOSLabel">Payment</h3>
+            <p class="TOSContent">All prices are in USD, but payments can be processed in CAD upon request.</p>
+            <h4>Accepted Payment Methods</h4>
+            <ul class="tosUl">
+                <li class="tosLI">Non-Canadian Clients: PayPal via invoice</li>
+                <li class="tosLI">Canadian Clients: Interac e-Transfer or PayPal via invoice</li>
+            </ul>
+            <p class="TOSContent">Please do not send payment unprompted, any unrequested payments will be rejected. </br></br>
+                You will receive an invoice once I am ready to begin your commission. For larger pieces, I may provide a rough sketch before requesting payment. Work will not commence until payment has been made, and completed artwork will not be delivered until it is paid in full.</br></br>
+                For commissions under $40, full payment is required upfront. For all other orders, payment may be made in two or more installments, depending on the total cost.
+            </p>
+            <hr class="sectionDivider"/>
+            <h3 class="TOSLabel">Thanks for Reading!</h3>
+            <p class="TOSContent" style="justify-self: center;">Get started by filling out the request form!</p>
+            <div class="LooseLink" onclick="openForm()">Request Form</div>
+        </div>
+    </div>
+</div>
+
+

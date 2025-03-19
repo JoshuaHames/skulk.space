@@ -2,9 +2,9 @@
     function hasClass(element, className) {
         return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
     }
+
     let lastExpanded = null
     function expand(element){
-
         if(hasClass(element, "portImgExpanded")){
             element.classList.remove("portImgExpanded")
         } else {
@@ -12,13 +12,19 @@
             if(lastExpanded && lastExpanded != element){
                 lastExpanded.classList.remove("portImgExpanded")
             }
-            lastExpanded = element
+            lastExpanded = element;
         }
-
     }
+
+    function delayedCall(){
+        let hoverbox = document.getElementById("HoverBox");
+        hoverbox.classList.add("HoverBox-Expand");
+    }
+
 </script>
 
 <style>
+@media only screen and (min-device-width:1400px) { /* For Desktop */
     #vael-top{
         margin-top: 0;
     }
@@ -135,12 +141,173 @@
         width: 45%;
         height: auto;
     }
+
+    #HoverBox{
+        width: 400px;
+        height: 200px;
+        border-top-left-radius: 10vh;
+        border-bottom-left-radius: 10vh;
+        right: -410px;
+        bottom: 30%;
+        background-color: rgb(66, 50, 65);
+        position: fixed;
+        transition: 0.35s ease-in-out;
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+    .HoverBox-Expand{
+        transition: 0.35s ease-in-out;
+        transform: translateX(-410px);
+    }
+
+}
+@media only screen and (max-device-width:1400px) { /* For Mobile */
+    #vael-top{
+        margin-top: 0;
+    }
+
+    #vaelPFP{
+        transform: scaleX(-1);
+    }
+    #VaelGalPage{
+        width: 100%;
+        justify-self: center;
+        border-bottom: #942b68 5px solid;
+        border-right: #942b68 5px solid;
+        border-top: #5c1b41 5px solid;
+        border-left: #5c1b41 5px solid;
+        background-image: linear-gradient(45deg, #792455, #792455);
+        text-align: left;
+
+    }
+    #AboutLabel{
+        text-align: center;
+    }
+    .SectionLabel{
+        margin-top: 5px;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+    .SectionSubLabel{
+        margin-top: 5px;
+        text-align: center;
+        font-size: large;
+        margin-top: 5px;
+    }
+    p{
+        padding-left: 20px;
+    }
+    .sectionDivider{
+        display: block;
+        border: 0;
+        border-top: rgb(158, 0, 0) 4px solid;
+        width: 100%;
+        height: 3px;
+        margin-top: 2px;
+    }
+
+    .portImg{
+        transition: all 0.15s ease-in-out;
+        margin: 5px;
+        box-shadow: 0 0 5px rgba(233, 0, 0, 0);
+    }
+    .o1x1{
+        width: 350px;
+        height: 350px;
+    }
+    .portImgExpanded{
+        transform: scale(2);
+    }
+    .portImg:hover{
+        box-shadow: 0 0 25px rgb(255, 208, 0);
+        cursor: pointer;
+    }
+    .container{
+        width: 900px;
+    }
+
+    .portSection{
+        display: grid;
+        width: 100%;
+        grid-template-columns: 50% 50%;
+        justify-items: center;
+    }
+    .portSection-lineart{
+        display: flexbox;
+        width: 100%;
+    }
+
+    #thelads{
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    #kinkykitty{
+        width: 480px;
+        height: 375px;
+    }
+
+    #clowncat{
+        width: 378px;
+        height: 426px;
+    }
+
+    #vaelref{
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+        height: auto;
+    }
+
+    #renPartial{
+        width:40%;
+        height: auto;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+    #batty{
+        margin-left: 2.5%;
+        width: 45%;
+        height: auto;
+    }
+
+    #pole{
+        margin-right: 2.5%;
+        width: 45%;
+        height: auto;
+    }
+
+    #HoverBox{
+        width: 60%;
+        height: 250px;
+        border-bottom-left-radius: 5vw;
+        border-bottom-right-radius: 5vw;
+        top: -410px;
+        left: 22%;
+        background-color: rgb(66, 50, 65);
+        position: fixed;
+        transition: 0.35s ease-in-out;
+        animation: breath 3s alternate-reverse infinite;
+    }
+
+    .HoverBox-Expand{
+        transition: 0.35s ease-in-out;
+        transform: translateY(410px);
+    }
+}
 </style>
 
 <div id="Grave-Header">
     <img src="/assets/vael-page/vaelpfp.png" id ="vaelPFP" class="SlowFadein"></img>
     <h1 id="vael-top"class="RainbowText">₊˚✧ Portfolio ✧˚₊</h1>
 </divd>
+
+<div id="HoverBox">
+    <h4>Like what you see?</h4>
+    <div class="LooseLink" onclick="animateContent()" hx-trigger="click delay:0.07s"hx-get="/vaeltos" hx-target="#Vael-Content">Contact Me</div>
+</div>
 
 <div class="section">
     <h4 id="AboutLabel">
@@ -161,8 +328,8 @@
         </div>
 
         <hr class="sectionDivider"/>
-        <h3 class="SectionLabel">✦ Full Body - Lineart ✦</h3>
-        <h4 class="SectionSubLabel">Full-body portraits with a lineart style: $100 </h4>
+        <h3 class="SectionLabel">✦ Full Body - Simple ✦</h3>
+        <h4 class="SectionSubLabel">Full-body portraits with a more simple style: $80 </h4>
         <div class = "portSection-lineart">
             <img id="vaelref" class="portImg" src="assets/vael-page/FullBodyLineart02.jpg" onclick="expand(this)"></img>
             <img id="clowncat" class="portImg" src="assets/vael-page/FullBodyLineart04.jpg" onclick="expand(this)"></img>
@@ -171,15 +338,15 @@
         </div>
 
         <hr class="sectionDivider"/>
-        <h3 class="SectionLabel">✦ Partials - Painted ✦</h3>
-        <h4 class="SectionSubLabel">Fully rendered partials: $100 </h4>
+        <h3 class="SectionLabel">✦ Partials - Rendered ✦</h3>
+        <h4 class="SectionSubLabel">Fully rendered partials: $85 </h4>
         <div class = "portSection-lineart">
             <img id="renPartial"class="portImg o1x1" src="assets/vael-page/PartialPainted01.jpg" onclick="expand(this)"></img>
         </div>
 
         <hr class="sectionDivider"/>
-        <h3 class="SectionLabel">✦ Partials - Lineart ✦</h3>
-        <h4 class="SectionSubLabel">Partials with a lineart style: $60 </h4>
+        <h3 class="SectionLabel">✦ Partials - Simple ✦</h3>
+        <h4 class="SectionSubLabel">Partials with a more simple style: $50 </h4>
         <div class = "portSection-lineart">
             <img id="renPartial"class="portImg o1x1" src="assets/vael-page/vaelpfp.png" onclick="expand(this)"></img>
         </div>

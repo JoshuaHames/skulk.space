@@ -141,6 +141,7 @@
             });
 
             set_OP_pageParsed(1);
+
         });
 
         function HeaderSetup(){
@@ -156,6 +157,14 @@
             }
             
         };
+
+        document.addEventListener("htmx:afterSwap", function(event) {
+            if (event.target.id === "Vael-Content") {
+                setTimeout(() => {
+                    delayedCall()
+                }, 5000);
+            }
+        });
 
         window.addEventListener("mousemove", function (e) {
             mouseX = e.clientX;

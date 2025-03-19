@@ -202,12 +202,17 @@ app.get('/vael',(req, res) => {
 app.get('/vaelmain',(req, res) => {
     res.render('partials/Vael/vaelmain');
 });
-
 app.get('/vaelabout',(req, res) => {
     res.render('partials/Vael/vaelabout');
 });
 app.get('/vaelportfolio',(req, res) => {
     res.render('partials/Vael/vaelportfolio');
+});
+app.get('/vaeltos',(req, res) => {
+    res.render('partials/Vael/vaeltos');
+});
+app.get('/rawtos',(req, res) => {
+    res.render('partials/Vael/rawtos');
 });
 
 
