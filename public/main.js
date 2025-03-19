@@ -226,8 +226,11 @@ function finishedLoad(){
     }
 }
 
-if(isPortrait)
-camera.rotation.x = -.5
+if(!isPortrait){
+    camera.rotation.x = -.5
+} else {
+    camera.rotation.x = -.25
+}
 
 let lastFrameTime = Date.now()
 let lastTickTime = Date.now()
