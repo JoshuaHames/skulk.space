@@ -12,6 +12,11 @@ const objLoader = new OBJLoader();
 
 scene.fog = new THREE.Fog( 0x000000, 50, 450 );
 
+let isPortrait = false
+if (window.innerHeight > window.innerWidth){
+    isPortrait = true
+}
+
 let mouseDirection = 0
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
 const renderer = new THREE.WebGLRenderer({
@@ -200,19 +205,28 @@ let rangeX = 4
 let rangeY = 20
 
 function finishedLoad(){
-    for (let lx = (rangeX * -1); lx < rangeX; lx++){
-        for (let ly = (rangeY * -1); ly < rangeY; ly++){
-            addPillar(graveList[Math.floor(Math.random() * graveList.length)], 200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
+    if(isPortrait) {
+        for (let lx = (rangeX * -1); lx < rangeX; lx++){
+            for (let ly = (rangeY * -1); ly < rangeY; ly++){
+                addPillar(graveList[Math.floor(Math.random() * graveList.length)], lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
+            }
         }
-    }
-    
-    for (let lx = (rangeX * -1); lx < rangeX; lx++){
-        for (let ly = (rangeY * -1); ly < rangeY; ly++){ 
-            addPillar(graveList[Math.floor(Math.random() * graveList.length)], -200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
+    } else {
+        for (let lx = (rangeX * -1); lx < rangeX; lx++){
+            for (let ly = (rangeY * -1); ly < rangeY; ly++){
+                addPillar(graveList[Math.floor(Math.random() * graveList.length)], 200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
+            }
+        }
+        
+        for (let lx = (rangeX * -1); lx < rangeX; lx++){
+            for (let ly = (rangeY * -1); ly < rangeY; ly++){ 
+                addPillar(graveList[Math.floor(Math.random() * graveList.length)], -200 + lx*35*getScaledNoise(lx, ly, 65, 0.4, 1.7), 0, ly * 10)
+            }
         }
     }
 }
 
+if(isPortrait)
 camera.rotation.x = -.5
 
 let lastFrameTime = Date.now()

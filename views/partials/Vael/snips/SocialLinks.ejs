@@ -1,5 +1,11 @@
+<script>
+    function openLinkNewTab(link){
+        window.open(link, '_blank').focus();
+    }
+</script>
+
 <div id="SocialLinks">
-    <div class="SocialLink" id="BlueskyLink">Bluesky <img class="social-icon" src="/assets/icons/bluesky.svg" width="50px"></img> </div>
-    <!-- <div class="SocialLink" id="InstagramLink">Instagram</div> -->
+    <div class="SocialLink" id="BlueskyLink" onclick="openLinkNewTab(`https://bsky.app/profile/kalea.bsky.social`)">Bluesky <img class="social-icon" src="/assets/icons/bluesky.svg" width="50px"></img> </div>
+    <div class="SocialLink" id="InstagramLink" onclick="openLinkNewTab(`https://linktr.ee/SoapyBits`)">LinkTree</div>
     <!-- <div class="SocialLink" id="TipjarLink">Tipjar</div> -->
 </div>
