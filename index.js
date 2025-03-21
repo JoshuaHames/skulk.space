@@ -90,35 +90,57 @@ app.use('/updatecount', async(req,res) => {
     if(req.url === '/favicon.ico'){
         res.end();
     }
-    try {
-        const [currentPageVisits, currentPageViews] = await Promise.all([
-            new Promise((resolve, reject) => {
-                VisitDB.get(GetPageViews, [page], (err, result) => {
-                    if (err) return console.error(err.message)
-                    VisitDB.run(SetPageViews, [result.pageViews + 1,page], (err) => {
+    if(req.query.type === 'get-only'){
+        try {
+            const [currentPageVisits, currentPageViews] = await Promise.all([
+                new Promise((resolve, reject) => {
+                    VisitDB.get(GetPageViews, [page], (err, result) => {
                         if (err) return console.error(err.message)
+                        resolve(result.pageViews)
                     })
-                    resolve(result.pageViews + 1)
-                })
-            }),
-            new Promise((resolve, reject) => {
-                VisitDB.get(GetPageVisits, [page], (err, result) => {
-                    if (err) return console.error(err.message)
-                        if(req.query.type === 'visit-pageview'){
-                            VisitDB.run(SetPageVisits, [result.pageVisits + 1,page], (err) => {
-                                if (err) return console.error(err.message)
-                            })
-                            resolve(result.pageVisits + 1)
-                        } else {
+                }),
+                new Promise((resolve, reject) => {
+                    VisitDB.get(GetPageVisits, [page], (err, result) => {
+                        if (err) return console.error(err.message)
                             resolve(result.pageVisits)
-                        }
-
+                    })
                 })
-            })
-        ])
-        res.send(JSON.stringify({ pageviews: currentPageViews, visits: currentPageVisits}))
-    } catch {
-        console.log("Something went wrong")
+            ])
+            res.send(JSON.stringify({ pageviews: currentPageViews, visits: currentPageVisits}))
+        } catch {
+            console.log("Something went wrong")
+        }
+    } else {
+        try {
+            const [currentPageVisits, currentPageViews] = await Promise.all([
+                new Promise((resolve, reject) => {
+                    VisitDB.get(GetPageViews, [page], (err, result) => {
+                        if (err) return console.error(err.message)
+                        VisitDB.run(SetPageViews, [result.pageViews + 1,page], (err) => {
+                            if (err) return console.error(err.message)
+                        })
+                        resolve(result.pageViews + 1)
+                    })
+                }),
+                new Promise((resolve, reject) => {
+                    VisitDB.get(GetPageVisits, [page], (err, result) => {
+                        if (err) return console.error(err.message)
+                            if(req.query.type === 'visit-pageview'){
+                                VisitDB.run(SetPageVisits, [result.pageVisits + 1,page], (err) => {
+                                    if (err) return console.error(err.message)
+                                })
+                                resolve(result.pageVisits + 1)
+                            } else {
+                                resolve(result.pageVisits)
+                            }
+
+                    })
+                })
+            ])
+            res.send(JSON.stringify({ pageviews: currentPageViews, visits: currentPageVisits}))
+        } catch {
+            console.log("Something went wrong")
+        }
     }
 })
 
