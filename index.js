@@ -54,8 +54,13 @@ let UserDB = new sql.Database('user.db', sql.OPEN_READ, (err) =>{
 	if(err) return console.error(err.message);
 })
 
+let VisitDB = new sql.Database('visit.db', sql.OPEN_READ, (err) =>{
+	if(err) return console.error(err.message);
+})
+
 GallaryDB.run("CREATE TABLE IF NOT EXISTS ImageTable(id, imgPath, imgTitle, imgDescription, imgWidth, imgHeight, Catagory)")
-SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id, line, credit)")
+SplashDB.run("CREATE TABLE IF NOT EXISTS SplashTable(id INTEGER PRIMARY KEY, line, credit)")
+VisitDB.run("CREATE TABLE IF NOT EXISTS VisitTable(id INTEGER PRIMARY KEY, page TEXT, pageViews INTEGER, pageVisits INTEGER)")
 UserDB.run("CREATE TABLE IF NOT EXISTS UserTable(username TEXT PRIMARY KEY COLLATE NOCASE, pass TEXT, refreshToken TEXT, roles TEXT, createdDate TEXT, lastLogin TEXT)");
 UserDB.run("CREATE TABLE IF NOT EXISTS IPTable(IP TEXT PRIMARY KEY COLLATE NOCASE, createTime TEXT, lastTime TEXT)");
 
@@ -70,21 +75,52 @@ const GetAllArt = 'SELECT * FROM ImageTable WHERE catagory = "art"';
 const GetAllPCM = 'SELECT * FROM ImageTable WHERE catagory = "pcm"';
 const GetAll = 'SELECT * FROM '
 
-function getItems(database, table) {
-    database.all(GetAll + table, [], (err,rows) =>{
-        if (err) return console.error(err.message)
-        SplashText = rows;
-    })
-}
+const InsertVisitRow = 'INSERT INTO VisitTable(page, pageViews, pageVisits) VALUES(?,?,?)'
+const GetPageViews = 'SELECT pageViews FROM VisitTable WHERE page = ?'
+const GetPageVisits = 'SELECT pageVisits FROM VisitTable WHERE page = ?'
+const SetPageViews = 'UPDATE VisitTable SET pageViews = ? WHERE page = ?'
+const SetPageVisits = 'UPDATE VisitTable SET pageVisits = ? WHERE page = ?'
 
-function listDB() {
-    GallaryDB.all(GetAllGallery, [], (err,rows) =>{
-        if (err) return console.error(err.message)
-        rows.forEach(row => {
-            console.log(row.id + " " + row.imgPath);
-        })
-    })
-}
+
+//Visit Counting
+app.use('/updatecount', async(req,res) => {
+    const {page} = req.body
+    if(!page) return res.status(400).json({'message': 'A page is required'});
+
+    if(req.url === '/favicon.ico'){
+        res.end();
+    }
+    try {
+        const [currentPageVisits, currentPageViews] = await Promise.all([
+            new Promise((resolve, reject) => {
+                VisitDB.get(GetPageViews, [page], (err, result) => {
+                    if (err) return console.error(err.message)
+                    VisitDB.run(SetPageViews, [result.pageViews + 1,page], (err) => {
+                        if (err) return console.error(err.message)
+                    })
+                    resolve(result.pageViews + 1)
+                })
+            }),
+            new Promise((resolve, reject) => {
+                VisitDB.get(GetPageVisits, [page], (err, result) => {
+                    if (err) return console.error(err.message)
+                        if(req.query.type === 'visit-pageview'){
+                            VisitDB.run(SetPageVisits, [result.pageVisits + 1,page], (err) => {
+                                if (err) return console.error(err.message)
+                            })
+                            resolve(result.pageVisits + 1)
+                        } else {
+                            resolve(result.pageVisits)
+                        }
+
+                })
+            })
+        ])
+        res.send(JSON.stringify({ pageviews: currentPageViews, visits: currentPageVisits}))
+    } catch {
+        console.log("Something went wrong")
+    }
+})
 
 server.listen(WEB_PORT, () => {
     console.log('listening on %d', WEB_PORT);
@@ -179,6 +215,74 @@ app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
 app.use('/verify', require('./routes/protectedRoute'))
 app.use('/verifyadmin', require('./routes/adminRoute'))
+
+//Admin Routes
+//User DB Routes
+app.use('/delusers', require('./routes/protected/delUsers'));
+app.use('/updatepass', require('./routes/protected/updatePassword'));
+//Splash DB Routes
+app.use('/delsplash', require('./routes/protected/delSplash'));
+app.use('/updatesplash', require('./routes/protected/updateSplash'));
+app.use('/addsplash', require('./routes/protected/addSplash'));
+
+app.use('/newvisit', require('./routes/protected/newIP'));
+
+app.use('/manageusers', require('./routes/adminRoute'), async (req, res, next) => {
+        res.render('admin/manageusers');
+});
+app.use('/managesplash', require('./routes/adminRoute'), async (req, res, next) => {
+        res.render('admin/managesplash');
+});
+
+app.use('/fetchuserdb', require('./routes/adminRoute'), async (req, res, next) => {
+    try {
+        // Run all queries concurrently using Promise.all
+        const [users] = await Promise.all([
+            new Promise((resolve, reject) => {
+                UserDB.all('Select * from UserTable',[], (err, users) => {
+                    if (err) reject(err);
+                    else resolve(users);
+                });
+            })
+        ]);
+
+        // Prepare data object for rendering
+        const data = {
+            users: users
+        };
+
+        // Render the gallery page with the data
+        res.render('admin/userdbtable', data)
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.use('/fetchsplashdb', require('./routes/adminRoute'), async (req, res, next) => {
+    try {
+        // Run all queries concurrently using Promise.all
+        const [lines] = await Promise.all([
+            new Promise((resolve, reject) => {
+                SplashDB.all('Select * from SplashTable',[], (err, lines) => {
+                    if (err) reject(err);
+                    else resolve(lines);
+                });
+            })
+        ]);
+
+        // Prepare data object for rendering
+        const data = {
+            lines: lines
+        };
+
+        // Render the gallery page with the data
+        res.render('admin/splashtable', data)
+    } catch (err) {
+        console.error('Error fetching data from database:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 //Regular Routes

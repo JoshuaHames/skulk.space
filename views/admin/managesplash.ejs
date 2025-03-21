@@ -1,0 +1,137 @@
+<%- include('../partials/header'); -%>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        font-size: 2.5vh;
+        height: 3vh;
+        background-color: #f2f2f2;
+    }   
+    td{
+        height: 150px;
+        font-size: 2vh;
+    }
+    tr{
+        height: 2.5vh;
+    }
+    #UserList{
+        margin-top: 100px;
+        width: 60%;
+    }
+    .selected{
+        background-color: aquamarine;
+    }
+</style>
+<script>
+    let selectedLines = []
+    let lastSelected = null
+    function setSelected(rowelement, id, cbelement){
+        cbelement.checked = !cbelement.checked;
+        if(cbelement.checked){
+            rowelement.classList.add("selected")
+            selectedLines.push(id)
+            lastSelected = id
+        } else {
+            rowelement.classList.remove("selected")
+            selectedLines.pop(id)
+        }
+    }
+
+    async function deleteSelected(){
+        try {
+            const response = await fetch("/delsplash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lines: selectedLines})
+            });
+
+            if (response.ok) {
+                console.log("User's Deleted from Database")
+            } else {
+                console.log("didn't delete for some reason")
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        selectedLines = []
+        lastSelected = null
+    }
+
+    async function updateSelected(){
+        let Line = document.getElementById("newLine").value
+        let newCredit = document.getElementById("newCredit").value
+        try {
+            const response = await fetch("/updatesplash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newLine: Line, id: lastSelected})
+            });
+
+            if (response.ok) {
+                console.log("Splash Line was Updated")
+            } else {
+                console.log("didn't update for some reason")
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        selectedLines = []
+        lastSelected = null
+    }
+    async function AddNew(){
+        let newLine = document.getElementById("newLine").value
+        let newCredit = document.getElementById("newCredit").value
+        try {
+            const response = await fetch("/addsplash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newLine: newLine, credit: newCredit})
+            });
+
+            if (response.ok) {
+                console.log("Splash Line was Updated")
+            } else {
+                console.log("didn't update for some reason")
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        selectedLines = []
+        lastSelected = null
+    }
+
+</script>
+
+<div class="CenterBody" id="Holder">
+    <div id="UserList" >
+        <div id="DatabaseControls">
+            <button onclick="deleteSelected()" hx-trigger="click delay:0.15s" hx-target="#tableBody" hx-get="/fetchsplashdb">Delete Line</button>
+            <button onclick="updateSelected()" hx-trigger="click delay:0.15s" hx-target="#tableBody" hx-get="/fetchsplashdb">Update Line</button>
+            <input id="newLine">
+            <input id="newCredit">
+            <button onclick="AddNew()" hx-trigger="click delay:0.15s" hx-target="#tableBody" hx-get="/fetchsplashdb">Add New Line</button>
+
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Line</th>
+                    <th>Credit</th>
+                    <th>Selected</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody" hx-get="/fetchsplashdb" hx-trigger="load, reload, every 20s">
+
+            </tbody>
+        </table>
+    </div>
+</div>

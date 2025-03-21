@@ -1,0 +1,90 @@
+<script>
+    async function getIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip
+        } catch (error) {
+            console.error('Error fetching IP address:', error);
+        }
+    }
+
+    async function loadup(){
+        let thisIP = await getIP()
+        console.log(thisIP)
+        if(sessionStorage.getItem('visit') === null){
+            fetch('/newvisit', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ thisIP: thisIP})
+                })
+            .then(res => res.json())
+            .then(data => {
+                console.log("New?: " + data.isNew)
+                if(data.isNew == 1){
+                    updateCounter('type=visit-pageview')
+                } else {
+                    updateCounter('type=pageview')
+                }
+            });
+        } else {
+            updateCounter('type=pageview')
+        }
+    }
+
+    function updateCounter(type){
+        fetch('/updatecount?'+type, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ page: pagename})
+            })
+        .then(res => res.json())
+        .then(data => {
+            const pageviewsCount = document.getElementById("pageviews-count")
+            const visitsCount = document.getElementById("visits-count")
+            pageviewsCount.textContent = data.pageviews;
+            visitsCount.textContent = data.visits;
+        });
+        
+        sessionStorage.setItem('visit', 'x')
+    }
+
+    loadup()
+
+</script>
+
+<style>
+    #PageCounters{
+        margin-top: 15px;
+        display: grid;
+        color: white;
+        grid-template-columns: 50% 50%;
+        height: 35px;
+        width: 20%;
+        justify-self: center;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 2vh;
+    }
+    #pageviews-count{
+        color: deeppink;
+    }
+    #visits-count{
+        color: deeppink
+    }
+    .CountBlock{
+        margin: 5px;
+        justify-self: center;
+        text-align: center;
+    }
+</style>
+
+<div id="PageCounters">
+    <div class="CountBlock">
+        <span class="CounterLabel">First Stops: </span>
+        <span id="pageviews-count"></spans>
+    </div>
+    <div class="CountBlock">
+        <span class="CounterLabel">Total Pageviews: </span>
+        <span id="visits-count"></spans>
+    </div>
+</div>

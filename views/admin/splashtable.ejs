@@ -1,0 +1,23 @@
+<script>
+    window.onload = onPageLoad();
+    function onPageLoad() {
+        setTimeout(function() {
+            selectedLines.forEach( person => {
+                console.log(selectedLines)
+                let rowElement = document.getElementById(person + '-row')
+                let cbElement = document.getElementById(person + '-cb')
+                cbElement.checked = true;
+                rowElement.classList.add('selected')
+            })
+        },30);
+    }
+</script>
+
+<% lines.forEach(item => { %>
+    <tr id="<%=item.line + '-row' %>" onclick="setSelected(this, '<%=item.id %>', document.getElementById('<%=item.line + '-cb'%>'))">
+        <td><%= item.id %></td>
+        <td><%= item.line %></td>
+        <td><%= item.credit %></td>
+        <td class = "selectCB"><input type="checkbox" id="<%=item.line + '-cb'%>" name="<%=item.line + '-cb'%>" value="<%=item.line + '-val'%>"><label for="<%=item.line + '-cb'%>"></label></td>
+    </tr>
+<% }); %>

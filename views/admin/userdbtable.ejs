@@ -1,0 +1,24 @@
+<script>
+    window.onload = onPageLoad();
+    function onPageLoad() {
+        setTimeout(function() {
+            selectedPeople.forEach( person => {
+                console.log(selectedPeople)
+                let rowElement = document.getElementById(person + '-row')
+                let cbElement = document.getElementById(person + '-cb')
+                cbElement.checked = true;
+                rowElement.classList.add('selected')
+            })
+        },30);
+    }
+</script>
+
+<% users.forEach(item => { %>
+    <tr id="<%=item.username + '-row' %>" onclick="setSelected(this, '<%=item.username %>', document.getElementById('<%=item.username + '-cb'%>'))">
+        <td><%= item.username %></td>
+        <td><%= Object.keys(JSON.parse(item.roles)) %></td>
+        <td><%= new Date(parseFloat(item.createdDate)).toDateString() +' at ' + new Date(parseFloat(item.createdDate)).toLocaleTimeString()%></td>
+        <td><%= new Date(parseFloat(item.lastLogin)).toDateString() +' at ' + new Date(parseFloat(item.lastLogin)).toLocaleTimeString()%></td>
+        <td class = "selectCB"><input type="checkbox" id="<%=item.username + '-cb'%>" name="<%=item.username + '-cb'%>" value="<%=item.username + '-val'%>"><label for="<%=item.username + '-cb'%>"></label></td>
+    </tr>
+<% }); %>

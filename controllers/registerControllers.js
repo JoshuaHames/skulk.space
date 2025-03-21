@@ -82,6 +82,25 @@ async function logThisIP(db, IP){
     }
  }
 
+const CheckandLogIP = async (req, res) => {
+    const timeElapsed = Date.now();
+    const now = new Date(timeElapsed);
+    const{thisIP} = req.body
+    if(!thisIP) return res.status(500).json({'message': 'data missing'});
+    const IPRow = await getIPInDB(UserDB, thisIP)
+    if(!IPRow){
+        return new Promise((resolve, reject) => {
+            UserDB.run(LogIP, [thisIP,now,now], (err) => {
+                if (err) reject(err)
+                resolve()
+                res.status(200).json({'isNew': '1'});
+            })
+        })
+    } else {
+        res.status(200).json({'isNew': '0'});
+    }
+ }
+
 
 
 async function createNewUser(db, res, username, pass){
@@ -123,4 +142,4 @@ const handleNewUser = async (req, res) => {
     }
 }
 
-module.exports = {handleNewUser};
+module.exports = {handleNewUser, CheckandLogIP};

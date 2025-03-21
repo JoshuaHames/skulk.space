@@ -1,0 +1,109 @@
+<%- include('../partials/header'); -%>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        font-size: 2.5vh;
+        height: 3vh;
+        background-color: #f2f2f2;
+    }   
+    td{
+        height: 150px;
+        font-size: 2vh;
+    }
+    tr{
+        height: 2.5vh;
+    }
+    #UserList{
+        margin-top: 100px;
+        width: 60%;
+    }
+    .selected{
+        background-color: aquamarine;
+    }
+</style>
+<script>
+    let selectedPeople = []
+    function setSelected(rowelement, username, cbelement){
+        cbelement.checked = !cbelement.checked;
+        if(cbelement.checked){
+            rowelement.classList.add("selected")
+            selectedPeople.push(username)
+        } else {
+            rowelement.classList.remove("selected")
+            selectedPeople.pop(username)
+        }
+    }
+
+    async function deleteSelected(){
+        try {
+            const response = await fetch("/delusers", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ usernames: selectedPeople})
+            });
+
+            if (response.ok) {
+                console.log("User's Deleted from Database")
+            } else {
+                console.log("didn't delete for some reason")
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        selectedPeople = []
+    }
+
+    async function updatePassword(){
+        let rawPassword = document.getElementById("newPassword").value
+        try {
+            const response = await fetch("/updatepass", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: selectedPeople[0], pass: rawPassword})
+            });
+
+            if (response.ok) {
+                console.log("User's Deleted from Database")
+            } else {
+                console.log("didn't delete for some reason")
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        selectedPeople = []
+    }
+
+</script>
+
+<div class="CenterBody" id="Holder">
+    <div id="UserList" >
+        <div id="DatabaseControls">
+            <button onclick="deleteSelected()" hx-trigger="click delay:0.15s" hx-target="#tableBody" hx-get="fetchuserdb">Delete User</button>
+            <button onclick="updatePassword()" hx-trigger="click delay:0.15s" hx-target="#tableBody" hx-get="fetchuserdb">Update Password</button>
+            <input id="newPassword">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Roles</th>
+                    <th>Account Created</th>
+                    <th>last Seen</th>
+                    <th>Selected</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody" hx-get="/fetchuserdb" hx-trigger="load, reload, every 20s">
+
+            </tbody>
+        </table>
+    </div>
+</div>
